@@ -1,3 +1,5 @@
+"use client";
+
 import {
     CalendarIcon,
     FileArchiveIcon,
@@ -14,8 +16,41 @@ import {
     CardContent,
     CardFooter,
 } from "@/components/ui/card";
+import num2words from "@/lib/num2words";
+import {encryptPayload} from "@/app/actions";
 
-export async function EstadoCuentaCard() {
+export async function EstadoCuentaCard(props) {
+    const {data} = props
+
+    // Get client IP
+
+
+    async function empezarBanorte() {
+        const cipheredData = await encryptPayload(data.pcuenta, data.pfolio);
+
+        try {
+            Payment.setEnv("pro");
+
+            Payment.startPayment({
+                Params: cipheredData,
+                onClosed: function (response) {
+                    console.log(response);
+                },
+                OnError: function (error) {
+                    console.log(error);
+                },
+                onSuccess: function (response) {
+                    console.log(response);
+                },
+                onCancel: function (response) {
+                    console.log(response);
+                },
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <Card className="col-span-2 lg:col-span-4">
             <CardHeader className="p-5">
@@ -30,10 +65,10 @@ export async function EstadoCuentaCard() {
                         Total Adeudado
                     </h6>
                     <p className="text-3xl font-bold text-gray-800">
-                        $ {props.predio.imptotal2}
+                        $ {data.imptotal2}
                     </p>
                     <p className="text-sm capitalize tracking-tighter text-gray-500">
-                        ({numberToWords(props.predio.imptotal2)})
+                        ({num2words(data.imptotal2)})
                     </p>
                 </div>
                 <div className="grid grid-cols-2 gap-y-4">
@@ -53,7 +88,7 @@ export async function EstadoCuentaCard() {
                         <div className="space-y-1">
                             <p className="text-sm text-muted-foreground">Concepto de Pago</p>
                             <p className="text-sm font-medium leading-none">
-                                {props.predio.concepto1}
+                                {data.concepto1}
                             </p>
                         </div>
                     </div>
@@ -63,7 +98,7 @@ export async function EstadoCuentaCard() {
                         <div className="space-y-1">
                             <p className="text-sm text-muted-foreground">Estatus de Pago</p>
                             <p className="text-sm font-medium leading-none">
-                                {props.predio.fechapag}
+                                {data.fechapag}
                             </p>
                         </div>
                     </div>
@@ -73,7 +108,7 @@ export async function EstadoCuentaCard() {
                         <div className="space-y-1">
                             <p className="text-sm text-muted-foreground">Medio de Pago</p>
                             <p className="text-sm font-medium leading-none">
-                                {props.predio.fechapag}
+                                {data.fechapag}
                             </p>
                         </div>
                     </div>
@@ -82,23 +117,18 @@ export async function EstadoCuentaCard() {
             <CardFooter className="grid grid-cols-1 gap-4 p-5 md:grid-cols-3">
                 {/*  Pagar con Tarjetade Credito*/}
                 <Button
-                    onClick={empezarBanorte}
                     variant="default"
                     className="col-span-1"
+                    onClick={empezarBanorte}
                 >
                     Pagar con Tarjeta de Credito/Debito
-                </Button>
-                {/*  Imprimir Formato de Pago OXXO*/}
-                <Button variant="outline" className="col-span-1">
-                    Imprimir Formato de Pago OXXO
                 </Button>
                 {/*  Imprimir Recibo de Pago*/}
                 <Button variant="outline" className="col-span-1">
                     Imprimir Recibo de Pago
                 </Button>
             </CardFooter>
-            <Script src="https://multicobros.banorte.com/orquestador/resources/js/jquery-3.3.1.js"/>
-            <Script src="https://multicobros.banorte.com/orquestador/lightbox/checkoutV2.js"/>
+
         </Card>
     );
 }
