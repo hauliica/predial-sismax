@@ -19,7 +19,7 @@ export function generateControlNumber(length: number = 30): string {
         const bytes = randomBytes(length - result.length);
         bytes.forEach(b => {
             // Convertidor 0-255 a 0-61
-            const charIndex = b % 62;
+            const charIndex = b % base62Charset.length;
             if (result.length < length) {
                 result += base62Charset[charIndex];
             }

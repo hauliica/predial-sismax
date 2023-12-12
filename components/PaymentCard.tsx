@@ -53,6 +53,9 @@ export async function EstadoCuentaCard(props) {
 
     return (
         <Card className="col-span-2 lg:col-span-4">
+            <Script strategy="lazyOnload" type="text/javascript"
+                    src="https://multicobros.banorte.com/orquestador/resources/js/jquery-3.3.1.js"/>
+            <Script type="text/javascript" src="https://multicobros.banorte.com/orquestador/lightbox/checkoutV2.js"/>
             <CardHeader className="p-5">
                 <CardTitle>Estado de Cuenta</CardTitle>
                 <CardDescription>

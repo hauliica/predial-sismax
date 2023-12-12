@@ -64,8 +64,6 @@ export default async function Page({params}: { params: { cuentafolio: string } }
 
     return (
         <main>
-            <Script src="https://multicobros.banorte.com/orquestador/resources/js/jquery-3.3.1.js"/>
-            <Script src="https://multicobros.banorte.com/orquestador/lightbox/checkoutV2.js"/>
             <div className="border-b-2 border-neutral-200">
                 <div className="container">
                     <div className="bg-white p-6 flex items-center justify-between w-full">
