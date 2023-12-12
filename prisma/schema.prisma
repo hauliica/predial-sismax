@@ -1,0 +1,1001 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Auditoria {
+  idauditor Int    @id @default(autoincrement())
+  idusuario Int
+  fechaa    String @db.Char(10)
+  horaa     String @db.Char(5)
+  tabla     String @db.VarChar(30)
+  idaccion  Int
+  registro  String @db.VarChar(30)
+  cambios   String @db.VarChar(400)
+}
+
+model Ejercicio {
+  idejercicio    Int     @id @default(autoincrement())
+  ejercicio      Int?
+  administracion String? @db.VarChar(50)
+}
+
+model Empresa {
+  idempresa   String @id @default("0") @db.Char(1)
+  emprfc      String @db.Char(12)
+  emprazon    String @db.VarChar(100)
+  empunidad   String @db.VarChar(50)
+  empcalle    String @db.VarChar(30)
+  empnum      String @db.VarChar(10)
+  empcd       String @db.VarChar(30)
+  empedo      String @db.VarChar(30)
+  idorienta   String @db.Char(1)
+  idcolonia   Int
+  idfun       Int
+  idestatus   String @db.Char(1)
+  emptels     String @db.VarChar(100)
+  oxxocb      String @db.VarChar(2)
+  idejercicio Int
+
+  @@index([idempresa], map: "EmpresaID")
+}
+
+model Estadisticas {
+  idesta    Int     @id @default(autoincrement())
+  fechaesta String? @db.Char(10)
+  horaesta  String? @db.Char(5)
+  nivel     String? @db.Char(2)
+}
+
+model Notificador {
+  idnoti  Int    @id @default(autoincrement())
+  nombren String @db.VarChar(200)
+}
+
+model Padeudos1 {
+  idpadron  Int    @id @default(autoincrement())
+  acuenta   String @db.Char(6)
+  afolio    String @db.Char(6)
+  ejercicio String @default("0") @db.Char(4)
+  bim       Int    @default(0)
+  imp       Float  @default(0.00)
+  rec       Float  @default(0.00)
+  croja     Float  @default(0.00)
+  chis      Float  @default(0.00)
+  bom       Float  @default(0.00)
+  dif       Float  @default(0.00)
+  poliza    Float
+  total     Float  @default(0.00)
+}
+
+model Padeudos1_febrero {
+  idpadron  Int    @id @default(autoincrement())
+  acuenta   String @db.Char(6)
+  afolio    String @db.Char(6)
+  ejercicio String @default("0") @db.Char(4)
+  bim       Int    @default(0)
+  imp       Float  @default(0.00)
+  rec       Float  @default(0.00)
+  croja     Float  @default(0.00)
+  chis      Float  @default(0.00)
+  bom       Float  @default(0.00)
+  dif       Float  @default(0.00)
+  poliza    Float
+  total     Float  @default(0.00)
+
+  @@map("Padeudos1 febrero")
+}
+
+model Padeudos1x_copy {
+  idpadron  Int    @id @default(autoincrement())
+  acuenta   String @db.Char(6)
+  afolio    String @db.Char(6)
+  ejercicio String @default("0") @db.Char(4)
+  bim       Int    @default(0)
+  imp       Float  @default(0.00)
+  rec       Float  @default(0.00)
+  croja     Float  @default(0.00)
+  chis      Float  @default(0.00)
+  bom       Float  @default(0.00)
+  dif       Float  @default(0.00)
+  poliza    Float
+  total     Float  @default(0.00)
+}
+
+model Padeudos2 {
+  idpadron  Int    @id @default(autoincrement())
+  acuenta   String @db.Char(6)
+  afolio    String @db.Char(6)
+  ejercicio String @default("0") @db.Char(4)
+  bim       Int    @default(0)
+  imp       Float  @default(0.00)
+  rec       Float  @default(0.00)
+  croja     Float  @default(0.00)
+  chis      Float  @default(0.00)
+  bom       Float  @default(0.00)
+  dif       Float  @default(0.00)
+  poliza    Float
+  desimp    Float
+  desrec    Float
+  total     Float  @default(0.00)
+}
+
+model Padeudos2_febrero {
+  idpadron  Int    @id @default(autoincrement())
+  acuenta   String @db.Char(6)
+  afolio    String @db.Char(6)
+  ejercicio String @default("0") @db.Char(4)
+  bim       Int    @default(0)
+  imp       Float  @default(0.00)
+  rec       Float  @default(0.00)
+  croja     Float  @default(0.00)
+  chis      Float  @default(0.00)
+  bom       Float  @default(0.00)
+  dif       Float  @default(0.00)
+  poliza    Float
+  desimp    Float
+  desrec    Float
+  total     Float  @default(0.00)
+
+  @@map("Padeudos2 febrero")
+}
+
+model Padeudos2_copy {
+  idpadron  Int    @id @default(autoincrement())
+  acuenta   String @db.Char(6)
+  afolio    String @db.Char(6)
+  ejercicio String @default("0") @db.Char(4)
+  bim       Int    @default(0)
+  imp       Float  @default(0.00)
+  rec       Float  @default(0.00)
+  croja     Float  @default(0.00)
+  chis      Float  @default(0.00)
+  bom       Float  @default(0.00)
+  dif       Float  @default(0.00)
+  poliza    Float
+  desimp    Float
+  desrec    Float
+  total     Float  @default(0.00)
+}
+
+model Padeudos2x_copy {
+  idpadron  Int    @id @default(autoincrement())
+  acuenta   String @db.Char(6)
+  afolio    String @db.Char(6)
+  ejercicio String @default("0") @db.Char(4)
+  bim       Int    @default(0)
+  imp       Float  @default(0.00)
+  rec       Float  @default(0.00)
+  croja     Float  @default(0.00)
+  chis      Float  @default(0.00)
+  bom       Float  @default(0.00)
+  dif       Float  @default(0.00)
+  poliza    Float
+  desimp    Float
+  desrec    Float
+  total     Float  @default(0.00)
+}
+
+model Padeudos2x_copy1 {
+  idpadron  Int    @id @default(autoincrement())
+  acuenta   String @db.Char(6)
+  afolio    String @db.Char(6)
+  ejercicio String @default("0") @db.Char(4)
+  bim       Int    @default(0)
+  imp       Float  @default(0.00)
+  rec       Float  @default(0.00)
+  croja     Float  @default(0.00)
+  chis      Float  @default(0.00)
+  bom       Float  @default(0.00)
+  dif       Float  @default(0.00)
+  poliza    Float
+  desimp    Float
+  desrec    Float
+  total     Float  @default(0.00)
+}
+
+model Padron {
+  pcuenta        String  @db.Char(6)
+  pfolio         String  @db.Char(6)
+  propietario    String  @db.VarChar(80)
+  pnombre        String  @db.VarChar(40)
+  papp           String  @db.VarChar(40)
+  papm           String  @db.VarChar(40)
+  prazon         String  @db.Char(80)
+  pcurp          String  @db.Char(18)
+  prfc           String  @db.Char(13)
+  dfcalle        String  @db.VarChar(60)
+  dfnum          String  @db.VarChar(5)
+  dfcolonia      String  @db.VarChar(60)
+  dfcd           String  @db.VarChar(40)
+  dfedo          String  @db.VarChar(40)
+  dftel          String  @db.Char(15)
+  dfcel          String  @db.Char(15)
+  dfcellada      String  @db.Char(3)
+  dftellada      String  @db.Char(3)
+  clavecatastral String  @db.Char(20)
+  dpcalle        String  @db.VarChar(60)
+  dpcolonia      String  @db.VarChar(60)
+  dpnum          String  @db.VarChar(5)
+  dpentre1       String  @db.VarChar(60)
+  dpentre2       String  @db.VarChar(60)
+  terreno        Float   @default(0.00)
+  const          Float   @default(0.00)
+  vcat           Float   @default(0.00)
+  imptotal1      Float
+  imptotal2      Float
+  concepto1      String  @db.VarChar(100)
+  concepto2      String  @db.VarChar(100)
+  uso            String  @db.VarChar(60)
+  poliza         String  @db.Char(1)
+  fechapag       String  @db.VarChar(10)
+  cb             String? @db.Char(30)
+
+  @@id([pcuenta, pfolio])
+}
+
+model Padron_copy {
+  pcuenta        String  @db.Char(6)
+  pfolio         String  @db.Char(6)
+  propietario    String  @db.VarChar(80)
+  pnombre        String  @db.VarChar(40)
+  papp           String  @db.VarChar(40)
+  papm           String  @db.VarChar(40)
+  prazon         String  @db.Char(80)
+  pcurp          String  @db.Char(18)
+  prfc           String  @db.Char(13)
+  dfcalle        String  @db.VarChar(60)
+  dfnum          String  @db.VarChar(5)
+  dfcolonia      String  @db.VarChar(60)
+  dfcd           String  @db.VarChar(40)
+  dfedo          String  @db.VarChar(40)
+  dftel          String  @db.Char(15)
+  dfcel          String  @db.Char(15)
+  dfcellada      String  @db.Char(3)
+  dftellada      String  @db.Char(3)
+  clavecatastral String  @db.Char(20)
+  dpcalle        String  @db.VarChar(60)
+  dpcolonia      String  @db.VarChar(60)
+  dpnum          String  @db.VarChar(5)
+  dpentre1       String  @db.VarChar(60)
+  dpentre2       String  @db.VarChar(60)
+  terreno        Float   @default(0.00)
+  const          Float   @default(0.00)
+  vcat           Float   @default(0.00)
+  imptotal1      Float
+  imptotal2      Float
+  concepto1      String  @db.VarChar(100)
+  concepto2      String  @db.VarChar(100)
+  uso            String  @db.VarChar(60)
+  poliza         String  @db.Char(1)
+  fechapag       String  @db.VarChar(10)
+  cb             String? @db.Char(30)
+
+  @@id([pcuenta, pfolio])
+}
+
+model Padron_marzo {
+  pcuenta        String  @db.Char(6)
+  pfolio         String  @db.Char(6)
+  propietario    String  @db.VarChar(80)
+  pnombre        String  @db.VarChar(40)
+  papp           String  @db.VarChar(40)
+  papm           String  @db.VarChar(40)
+  prazon         String  @db.Char(80)
+  pcurp          String  @db.Char(18)
+  prfc           String  @db.Char(13)
+  dfcalle        String  @db.VarChar(60)
+  dfnum          String  @db.VarChar(5)
+  dfcolonia      String  @db.VarChar(60)
+  dfcd           String  @db.VarChar(40)
+  dfedo          String  @db.VarChar(40)
+  dftel          String  @db.Char(15)
+  dfcel          String  @db.Char(15)
+  dfcellada      String  @db.Char(3)
+  dftellada      String  @db.Char(3)
+  clavecatastral String  @db.Char(20)
+  dpcalle        String  @db.VarChar(60)
+  dpcolonia      String  @db.VarChar(60)
+  dpnum          String  @db.VarChar(5)
+  dpentre1       String  @db.VarChar(60)
+  dpentre2       String  @db.VarChar(60)
+  terreno        Float   @default(0.00)
+  const          Float   @default(0.00)
+  vcat           Float   @default(0.00)
+  imptotal1      Float
+  imptotal2      Float
+  concepto1      String  @db.VarChar(100)
+  concepto2      String  @db.VarChar(100)
+  uso            String  @db.VarChar(60)
+  poliza         String  @db.Char(1)
+  fechapag       String  @db.VarChar(10)
+  cb             String? @db.Char(30)
+
+  @@id([pcuenta, pfolio])
+}
+
+model Padronfebrero {
+  pcuenta        String  @db.Char(6)
+  pfolio         String  @db.Char(6)
+  propietario    String  @db.VarChar(80)
+  pnombre        String  @db.VarChar(40)
+  papp           String  @db.VarChar(40)
+  papm           String  @db.VarChar(40)
+  prazon         String  @db.Char(80)
+  pcurp          String  @db.Char(18)
+  prfc           String  @db.Char(13)
+  dfcalle        String  @db.VarChar(60)
+  dfnum          String  @db.VarChar(5)
+  dfcolonia      String  @db.VarChar(60)
+  dfcd           String  @db.VarChar(40)
+  dfedo          String  @db.VarChar(40)
+  dftel          String  @db.Char(15)
+  dfcel          String  @db.Char(15)
+  dfcellada      String  @db.Char(3)
+  dftellada      String  @db.Char(3)
+  clavecatastral String  @db.Char(20)
+  dpcalle        String  @db.VarChar(60)
+  dpcolonia      String  @db.VarChar(60)
+  dpnum          String  @db.VarChar(5)
+  dpentre1       String  @db.VarChar(60)
+  dpentre2       String  @db.VarChar(60)
+  terreno        Float   @default(0.00)
+  const          Float   @default(0.00)
+  vcat           Float   @default(0.00)
+  imptotal1      Float
+  imptotal2      Float
+  concepto1      String  @db.VarChar(100)
+  concepto2      String  @db.VarChar(100)
+  uso            String  @db.VarChar(60)
+  poliza         String  @db.Char(1)
+  fechapag       String  @db.VarChar(10)
+  cb             String? @db.Char(30)
+
+  @@id([pcuenta, pfolio])
+}
+
+model Padronx_copy {
+  pcuenta        String  @db.Char(6)
+  pfolio         String  @db.Char(6)
+  propietario    String  @db.VarChar(80)
+  pnombre        String  @db.VarChar(40)
+  papp           String  @db.VarChar(40)
+  papm           String  @db.VarChar(40)
+  prazon         String  @db.Char(80)
+  pcurp          String  @db.Char(18)
+  prfc           String  @db.Char(13)
+  dfcalle        String  @db.VarChar(60)
+  dfnum          String  @db.VarChar(5)
+  dfcolonia      String  @db.VarChar(60)
+  dfcd           String  @db.VarChar(40)
+  dfedo          String  @db.VarChar(40)
+  dftel          String  @db.Char(15)
+  dfcel          String  @db.Char(15)
+  dfcellada      String  @db.Char(3)
+  dftellada      String  @db.Char(3)
+  clavecatastral String  @db.Char(20)
+  dpcalle        String  @db.VarChar(60)
+  dpcolonia      String  @db.VarChar(60)
+  dpnum          String  @db.VarChar(5)
+  dpentre1       String  @db.VarChar(60)
+  dpentre2       String  @db.VarChar(60)
+  terreno        Float   @default(0.00)
+  const          Float   @default(0.00)
+  vcat           Float   @default(0.00)
+  imptotal1      Float
+  imptotal2      Float
+  concepto1      String  @db.VarChar(100)
+  concepto2      String  @db.VarChar(100)
+  uso            String  @db.VarChar(60)
+  poliza         String  @db.Char(1)
+  fechapag       String  @db.VarChar(10)
+  cb             String? @db.Char(30)
+
+  @@id([pcuenta, pfolio])
+}
+
+model Padronx_copy1 {
+  pcuenta        String  @db.Char(6)
+  pfolio         String  @db.Char(6)
+  propietario    String  @db.VarChar(80)
+  pnombre        String  @db.VarChar(40)
+  papp           String  @db.VarChar(40)
+  papm           String  @db.VarChar(40)
+  prazon         String  @db.Char(80)
+  pcurp          String  @db.Char(18)
+  prfc           String  @db.Char(13)
+  dfcalle        String  @db.VarChar(60)
+  dfnum          String  @db.VarChar(5)
+  dfcolonia      String  @db.VarChar(60)
+  dfcd           String  @db.VarChar(40)
+  dfedo          String  @db.VarChar(40)
+  dftel          String  @db.Char(15)
+  dfcel          String  @db.Char(15)
+  dfcellada      String  @db.Char(3)
+  dftellada      String  @db.Char(3)
+  clavecatastral String  @db.Char(20)
+  dpcalle        String  @db.VarChar(60)
+  dpcolonia      String  @db.VarChar(60)
+  dpnum          String  @db.VarChar(5)
+  dpentre1       String  @db.VarChar(60)
+  dpentre2       String  @db.VarChar(60)
+  terreno        Float   @default(0.00)
+  const          Float   @default(0.00)
+  vcat           Float   @default(0.00)
+  imptotal1      Float
+  imptotal2      Float
+  concepto1      String  @db.VarChar(100)
+  concepto2      String  @db.VarChar(100)
+  uso            String  @db.VarChar(60)
+  poliza         String  @db.Char(1)
+  fechapag       String  @db.VarChar(10)
+  cb             String? @db.Char(30)
+
+  @@id([pcuenta, pfolio])
+}
+
+model Pagosx {
+  pindex     Int     @id @default(autoincrement())
+  pcuenta    String? @db.VarChar(6)
+  pfolio     String? @db.VarChar(6)
+  pfecha     String? @db.VarChar(10)
+  plugar     String? @db.VarChar(30)
+  pimporte   Float?
+  pcorreo    String? @db.VarChar(80)
+  numcontrol Int?
+  concepto   String? @db.VarChar(100)
+  phora      String? @db.VarChar(10)
+}
+
+model Panelcontrol {
+  idpc      String @id @db.Char(3)
+  idempresa String @default("") @db.Char(1)
+  pcunidad  String @db.VarChar(100)
+  eslogan   String @db.VarChar(50)
+  pctitulo1 String @db.VarChar(70)
+  pctitulo2 String @db.VarChar(70)
+  pctitulo3 String @db.VarChar(70)
+  firma1    Int
+  firma2    Int
+  firma3    Int
+  vigencia  String @db.VarChar(70)
+}
+
+model Rcontribuyente {
+  idcontribuyente Int    @id @default(autoincrement())
+  cuenta          String @db.VarChar(6)
+  idtipo          Int    @default(0)
+  nomc            String @db.VarChar(40)
+  appc            String @db.VarChar(20)
+  apmc            String @db.VarChar(20)
+  rfcc            String @db.VarChar(15)
+  curpc           String @db.VarChar(18)
+  callec          String @db.VarChar(80)
+  numintc         String @db.VarChar(10)
+  numextc         String @db.VarChar(10)
+  coloniac        String @db.VarChar(80)
+  calle1c         String @db.VarChar(80)
+  calle2c         String @db.VarChar(80)
+  ciudadc         String @db.VarChar(80)
+  estadoc         String @db.VarChar(80)
+  cpc             String @db.VarChar(5)
+  telefonoc       String @db.VarChar(10)
+  celularc        String @db.VarChar(10)
+  correoc         String @db.VarChar(80)
+  idestatusc      Int
+  fechaaltac      String @db.VarChar(10)
+  idusuarioc      Int
+}
+
+model Rcontrol {
+  idrcontrol   Int    @id @default(autoincrement())
+  rejercicio   Int
+  rmillar      Float
+  rimpmin      Float
+  rcruzrojapor Float
+  rcruzrojamin Float
+  rbomberopor  Float
+  rbomberomin  Float
+  rcentropor   Float
+  rcentromin   Float
+  rdifpor      Float
+  rdifmin      Float
+  di1          Int
+  di2          Int
+  di3          Int
+  di4          Int
+  fdr1i        String @db.VarChar(10)
+  fdr2i        String @db.VarChar(10)
+  fdr3i        String @db.VarChar(10)
+  fdr4i        String @db.VarChar(10)
+  fdr1f        String @db.VarChar(10)
+  fdr2f        String @db.VarChar(10)
+  fdr3f        String @db.VarChar(10)
+  fdr4f        String @db.VarChar(10)
+  dr1          Int
+  dr2          Int
+  fdri1        String @db.VarChar(10)
+  fdri2        String @db.VarChar(10)
+  fdrt1        String @db.VarChar(10)
+  fdrt2        String @db.VarChar(10)
+  pcruzr       Float
+  icruzr       Float
+  pbomberor    Float
+  ibomberor    Float
+  pdifr        Float
+  idifr        Float
+  pcentror     Float
+  icentror     Float
+  idestatuspc  Int
+
+  @@index([rejercicio], map: "rejercicio")
+}
+
+model Rpredio {
+  idrpredio   Int     @id @default(autoincrement())
+  pcuenta     String? @db.VarChar(10)
+  pfolio      String? @db.VarChar(10)
+  pclavcat    String? @db.VarChar(10)
+  pnombre     String? @db.VarChar(120)
+  pejido      String? @db.VarChar(80)
+  pste        String? @db.VarChar(20)
+  pstf        String? @db.VarChar(20)
+  pclaves1    String? @db.VarChar(2)
+  pclaves2    String? @db.VarChar(2)
+  ptc1        Float?
+  ptc2        Float?
+  pclavec1    String? @db.VarChar(10)
+  pclavec2    String? @db.VarChar(10)
+  pclavec3    String? @db.VarChar(10)
+  pclavec4    String? @db.VarChar(10)
+  pdempre1    String? @db.VarChar(10)
+  pdemc1      String? @db.VarChar(10)
+  pvcatastral Float?
+  pimpanual   Int?
+  pfechaalta  String? @db.VarChar(12)
+  pidestatus  Int?
+  pidusuario  Int?
+}
+
+model Rtabla1 {
+  idvalorr      Int     @id @default(autoincrement())
+  ejercicio     String? @db.VarChar(9)
+  clave         String? @db.Char(2)
+  clasificacion String? @db.VarChar(40)
+  valoruxh      Float?
+}
+
+model Solicitud {
+  indice         Int    @id @default(autoincrement())
+  curpsol        String @db.Char(18)
+  callesol       String @db.VarChar(60)
+  coloniasol     String @db.VarChar(60)
+  numsol         String @db.VarChar(6)
+  correosol      String @db.VarChar(100)
+  ladacel        String @db.Char(3)
+  celsol         String @db.Char(7)
+  idestatus      String @db.Char(1)
+  cuentasol      String @db.Char(6)
+  foliosol       String @db.Char(6)
+  fechasol       String @db.Char(10)
+  horasol        String @db.Char(5)
+  fechafin       String @db.Char(10)
+  horafin        String @db.Char(5)
+  idusuario      Int
+  observaciones  String @db.VarChar(250)
+  atencion       String @db.Char(1)
+  nombresol      String @db.VarChar(60)
+  tipos          String @db.VarChar(30)
+  fechapago      String @db.Char(10)
+  horapago       String @db.Char(5)
+  tipoc          String @db.VarChar(30)
+  observaciones2 String @db.VarChar(250)
+}
+
+model Solicitud2022 {
+  indice         Int    @id @default(autoincrement())
+  curpsol        String @db.Char(18)
+  callesol       String @db.VarChar(60)
+  coloniasol     String @db.VarChar(60)
+  numsol         String @db.VarChar(6)
+  correosol      String @db.VarChar(100)
+  ladacel        String @db.Char(3)
+  celsol         String @db.Char(7)
+  idestatus      String @db.Char(1)
+  cuentasol      String @db.Char(6)
+  foliosol       String @db.Char(6)
+  fechasol       String @db.Char(10)
+  horasol        String @db.Char(5)
+  fechafin       String @db.Char(10)
+  horafin        String @db.Char(5)
+  idusuario      Int
+  observaciones  String @db.VarChar(250)
+  atencion       String @db.Char(1)
+  nombresol      String @db.VarChar(60)
+  tipos          String @db.VarChar(30)
+  fechapago      String @db.Char(10)
+  horapago       String @db.Char(5)
+  tipoc          String @db.VarChar(30)
+  observaciones2 String @db.VarChar(250)
+}
+
+model Solicitud_2 {
+  indice         Int    @id @default(autoincrement())
+  curpsol        String @db.Char(18)
+  callesol       String @db.VarChar(60)
+  coloniasol     String @db.VarChar(60)
+  numsol         String @db.VarChar(6)
+  correosol      String @db.VarChar(100)
+  ladacel        String @db.Char(3)
+  celsol         String @db.Char(7)
+  idestatus      String @db.Char(1)
+  cuentasol      String @db.Char(6)
+  foliosol       String @db.Char(6)
+  fechasol       String @db.Char(10)
+  horasol        String @db.Char(5)
+  fechafin       String @db.Char(10)
+  horafin        String @db.Char(5)
+  idusuario      Int
+  observaciones  String @db.VarChar(250)
+  atencion       String @db.Char(1)
+  nombresol      String @db.VarChar(60)
+  tipos          String @db.VarChar(30)
+  fechapago      String @db.Char(10)
+  horapago       String @db.Char(5)
+  tipoc          String @db.VarChar(30)
+  observaciones2 String @db.VarChar(250)
+}
+
+model Solicitud_3 {
+  indice         Int    @id @default(autoincrement())
+  curpsol        String @db.Char(18)
+  callesol       String @db.VarChar(60)
+  coloniasol     String @db.VarChar(60)
+  numsol         String @db.VarChar(6)
+  correosol      String @db.VarChar(100)
+  ladacel        String @db.Char(3)
+  celsol         String @db.Char(7)
+  idestatus      String @db.Char(1)
+  cuentasol      String @db.Char(6)
+  foliosol       String @db.Char(6)
+  fechasol       String @db.Char(10)
+  horasol        String @db.Char(5)
+  fechafin       String @db.Char(10)
+  horafin        String @db.Char(5)
+  idusuario      Int
+  observaciones  String @db.VarChar(250)
+  atencion       String @db.Char(1)
+  nombresol      String @db.VarChar(60)
+  tipos          String @db.VarChar(30)
+  fechapago      String @db.Char(10)
+  horapago       String @db.Char(5)
+  tipoc          String @db.VarChar(30)
+  observaciones2 String @db.VarChar(250)
+}
+
+model Solicitud_4 {
+  indice         Int    @id @default(autoincrement())
+  curpsol        String @db.Char(18)
+  callesol       String @db.VarChar(60)
+  coloniasol     String @db.VarChar(60)
+  numsol         String @db.VarChar(6)
+  correosol      String @db.VarChar(100)
+  ladacel        String @db.Char(3)
+  celsol         String @db.Char(7)
+  idestatus      String @db.Char(1)
+  cuentasol      String @db.Char(6)
+  foliosol       String @db.Char(6)
+  fechasol       String @db.Char(10)
+  horasol        String @db.Char(5)
+  fechafin       String @db.Char(10)
+  horafin        String @db.Char(5)
+  idusuario      Int
+  observaciones  String @db.VarChar(250)
+  atencion       String @db.Char(1)
+  nombresol      String @db.VarChar(60)
+  tipos          String @db.VarChar(30)
+  fechapago      String @db.Char(10)
+  horapago       String @db.Char(5)
+  tipoc          String @db.VarChar(30)
+  observaciones2 String @db.VarChar(250)
+}
+
+model Tacceso {
+  idusuario Int     @id
+  acceso01  Boolean @default(dbgenerated("(b'0')")) @db.Bit(1)
+  acceso02  Boolean @default(dbgenerated("(b'0')")) @db.Bit(1)
+  a11       Boolean @default(dbgenerated("(b'0')")) @db.Bit(1)
+  a12       Boolean @default(dbgenerated("(b'0')")) @db.Bit(1)
+  a13       Boolean @default(dbgenerated("(b'0')")) @db.Bit(1)
+  a14       Boolean @default(dbgenerated("(b'0')")) @db.Bit(1)
+  a15       Boolean @default(dbgenerated("(b'0')")) @db.Bit(1)
+  a16       Boolean @db.Bit(1)
+  a17       Boolean @db.Bit(1)
+  a21       Boolean @default(dbgenerated("(b'0')")) @db.Bit(1)
+  a22       Boolean @default(dbgenerated("(b'0')")) @db.Bit(1)
+  a23       Boolean @default(dbgenerated("(b'0')")) @db.Bit(1)
+  a24       Boolean @default(dbgenerated("(b'0')")) @db.Bit(1)
+  a25       Boolean @default(dbgenerated("(b'0')")) @db.Bit(1)
+  a26       Boolean @db.Bit(1)
+}
+
+model Taccion {
+  idaccionind Int    @id @default(autoincrement())
+  idaccion    Int
+  accion      String @db.VarChar(25)
+}
+
+model Tcalle {
+  idcalle   Int    @id @default(autoincrement())
+  calle     String @db.VarChar(60)
+  idestatus String @default("1") @db.Char(1)
+  idempresa Int
+}
+
+model Tcolonia {
+  idcolonia Int    @id @default(autoincrement())
+  colonia   String @db.VarChar(50)
+  cp        String @db.Char(5)
+  idestatus Int
+}
+
+model Tcolonia_Audi {
+  idcolonia Int    @id
+  colonia   String @db.VarChar(60)
+  cp        String @db.Char(5)
+  idestatus String @db.Char(1)
+  idempresa Int
+}
+
+model Tcoltipo {
+  idtipocolind Int    @id
+  idtipocol    String @db.Char(1)
+  tipocol      String @db.VarChar(20)
+}
+
+model Tcon {
+  idtipocon Int    @id
+  tipocon   String @db.VarChar(40)
+}
+
+model Tconstruccion {
+  idconstruccion Int    @id @default(autoincrement())
+  ejerciciocon   String @db.VarChar(4)
+  clavecon       String @db.Char(3)
+  valorcon       Float
+}
+
+model Tejido {
+  idejido    Int    @id @default(autoincrement())
+  ejercicioe String @db.Char(4)
+  ejido      String @db.VarChar(60)
+  valore     Float
+}
+
+model Testado {
+  idestado  Int    @id @default(autoincrement())
+  estado    String @db.VarChar(60)
+  idpais    Int
+  idestatus String @default("1") @db.Char(1)
+  idempresa Int
+}
+
+model Testatus {
+  idestatus   Int    @id @default(autoincrement())
+  tipoestatus String @db.Char(1)
+  estatus     String @db.VarChar(20)
+}
+
+model Testatus2 {
+  idestatusind Int
+  idestatus    String @id @db.Char(1)
+  tipoestatus  String @db.Char(1)
+  estatus      String @db.VarChar(20)
+}
+
+model Tfuncionarios {
+  idfun     Int     @id @default(autoincrement())
+  fcurp     String  @db.Char(18)
+  fnom      String  @db.VarChar(25)
+  fapp      String  @db.VarChar(20)
+  fapm      String? @db.VarChar(20)
+  fpuesto   String? @db.VarChar(150)
+  fimaili   String? @db.VarChar(50)
+  fimailc   String? @db.VarChar(50)
+  fteli     String? @db.Char(7)
+  ftelc     String? @db.Char(7)
+  fceli     String? @db.Char(7)
+  fcelc     String? @db.Char(7)
+  fext      String? @db.Char(7)
+  fladaceli String? @db.Char(3)
+  fladacelc String? @db.Char(3)
+  fladateli String? @db.Char(3)
+  fladatelc String? @db.Char(3)
+  idsexo    String  @db.Char(1)
+  idtrata   String  @db.Char(2)
+  idestatus String  @db.Char(1)
+}
+
+model Tincdemr {
+  idincdemr      Int     @id @default(autoincrement())
+  ejercicio      String? @db.VarChar(6)
+  tipoincdem     String  @db.VarChar(10)
+  conceptoincdem String? @db.VarChar(80)
+  valor          Int?
+}
+
+model Torienta {
+  idorientaind String  @id @default("") @db.Char(1)
+  idorienta    String? @db.Char(1)
+  orienta      String? @db.VarChar(10)
+}
+
+model Tpais {
+  idpais    Int    @id @default(autoincrement())
+  pais      String @db.VarChar(60)
+  idestatus String @default("1") @db.Char(1)
+  idempresa Int
+}
+
+model Tsexo {
+  idsexo Int    @id @default(autoincrement())
+  sexo   String @db.VarChar(20)
+}
+
+model Tsuelo {
+  idsuelo        Int    @id @default(autoincrement())
+  ejercicios     String @db.VarChar(4)
+  claves         String @db.Char(2)
+  clasificacions String @db.VarChar(60)
+  valors         Float
+}
+
+model Ttrata {
+  idtrata Int    @id @default(autoincrement())
+  trata   String @db.VarChar(20)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model URBADEUDO {
+  URACUENTA    String? @db.Text
+  URAFOLIO     String? @db.Text
+  URAEJERCICIO Int?
+  URABIMESTRES Int?
+  URAIMPUESTO  Float?
+  URAIMPUESTO2 Int?
+  URACRUZ      Float?
+  URAESTATUS   String? @db.Text
+  URAUSU1      String? @db.Text
+  URAUSU2      String? @db.Text
+  URAFECHA1    String? @db.Text
+  URAFECHA2    String? @db.Text
+  URAPC        String? @db.Text
+  URAHISTORY   Float?
+  URABOMBERO   Float?
+  URADIF       Float?
+  URAPOLIZA    Float?
+
+  @@ignore
+}
+
+model Ucontrol {
+  idrcontrol   Int    @id @default(autoincrement())
+  rejercicio   Int
+  rmillar      Float
+  rimpmin      Float
+  rcruzrojapor Float
+  rcruzrojamin Float
+  rbomberopor  Float
+  rbomberomin  Float
+  rcentropor   Float
+  rcentromin   Float
+  rdifpor      Float
+  rdifmin      Float
+  di1          Int
+  di2          Int
+  di3          Int
+  di4          Int
+  fdr1i        String @db.VarChar(10)
+  fdr2i        String @db.VarChar(10)
+  fdr3i        String @db.VarChar(10)
+  fdr4i        String @db.VarChar(10)
+  fdr1f        String @db.VarChar(10)
+  fdr2f        String @db.VarChar(10)
+  fdr3f        String @db.VarChar(10)
+  fdr4f        String @db.VarChar(10)
+  dr1          Int
+  dr2          Int
+  fdri1        String @db.VarChar(10)
+  fdri2        String @db.VarChar(10)
+  fdrt1        String @db.VarChar(10)
+  fdrt2        String @db.VarChar(10)
+  pcruzr       Float
+  icruzr       Float
+  pbomberor    Float
+  ibomberor    Float
+  pdifr        Float
+  idifr        Float
+  pcentror     Float
+  icentror     Float
+  idestatuspc  Int
+
+  @@index([rejercicio], map: "rejercicio")
+}
+
+model Usuarios {
+  idusuario Int    @id @default(autoincrement())
+  ucurp     String @db.Char(18)
+  unom      String @db.VarChar(25)
+  uapp      String @db.VarChar(20)
+  uapm      String @db.VarChar(20)
+  utel      String @db.Char(10)
+  uext      String @db.Char(3)
+  ucorreo   String @db.VarChar(80)
+  usuario   String @db.VarChar(10)
+  clave     String @db.VarChar(10)
+  idtipous  String @db.Char(1)
+  idempresa String @db.Char(1)
+  idestatus Int
+  acceso01  String @db.Char(2)
+  acceso02  String @db.Char(2)
+  acceso03  String @db.Char(2)
+  acceso04  String @db.Char(2)
+  p01       String @db.Char(2)
+  u01       String @db.Char(2)
+  r01       String @db.Char(2)
+  s01       String @db.Char(2)
+}
+
+model UsuariosT {
+  idtipous Int    @id @default(autoincrement())
+  tipou    String @db.VarChar(25)
+  cateu    String @db.VarChar(25)
+}
+
+model banortereturn {
+  ID_CONTROL     Int     @id @default(autoincrement())
+  CONTROL_NUMBER String? @db.VarChar(30)
+  REFERENCE      Int?
+  CUST_REQ_DATE  String? @db.VarChar(21)
+  AUTH_REQ_DATE  String? @db.VarChar(21)
+  AUTH_RSP_DATE  String? @db.VarChar(21)
+  CUST_RSP_DATE  String? @db.VarChar(21)
+  PAYW_RESULT    String? @db.Char(1)
+  AUTH_RESULT    String? @db.VarChar(10)
+  PAYW_CODE      String? @db.VarChar(8)
+  AUTH_CODE      String? @db.VarChar(10)
+  TEXTR          String? @db.VarChar(200)
+  ISSUING_BANK   String? @db.VarChar(20)
+  CARD_BRAND     String? @db.VarChar(20)
+  CARD_TYPE      String? @db.VarChar(20)
+  MERCHANT_ID    Int?
+}
+
+model cb {
+  folio String  @id @default("") @db.Char(7)
+  mes   String? @db.Char(2)
+  cb    String? @db.Char(30)
+}
+
+model codigos {
+  folio String  @id @default("") @db.Char(7)
+  mes   String? @db.Char(2)
+  cb    String? @db.Char(30)
+}
+
+model foliocontrol {
+  idcontrol Int     @id @default(autoincrement())
+  fecha     String? @db.VarChar(10)
+  hora      String? @db.VarChar(5)
+  cuenta    String? @db.VarChar(6)
+  folio     String? @db.VarChar(6)
+  nombrefc  String? @db.VarChar(120)
+  correofc  String? @db.VarChar(120)
+
+  @@index([cuenta], map: "cuenta")
+  @@index([folio], map: "folio")
+}
