@@ -6,7 +6,6 @@ import {
     ReceiptIcon,
     CreditCardIcon,
 } from "lucide-react";
-import Script from "next/script";
 import {Button} from "@/components/ui/button";
 import {
     Card,
@@ -18,15 +17,15 @@ import {
 } from "@/components/ui/card";
 import num2words from "@/lib/num2words";
 import {encryptPayload} from "@/app/actions";
+import Script from "next/script";
 
-export async function EstadoCuentaCard(props) {
+export function EstadoCuentaCard(props) {
     const {data} = props
-
-    // Get client IP
-
 
     async function empezarBanorte() {
         const cipheredData = await encryptPayload(data.pcuenta, data.pfolio);
+        console.log(cipheredData);
+
 
         try {
             Payment.setEnv("pro");
@@ -36,8 +35,8 @@ export async function EstadoCuentaCard(props) {
                 onClosed: function (response) {
                     console.log(response);
                 },
-                OnError: function (error) {
-                    console.log(error);
+                OnError: function (response) {
+                    console.log(response);
                 },
                 onSuccess: function (response) {
                     console.log(response);
@@ -53,9 +52,11 @@ export async function EstadoCuentaCard(props) {
 
     return (
         <Card className="col-span-2 lg:col-span-4">
-            <Script strategy="lazyOnload" type="text/javascript"
-                    src="https://multicobros.banorte.com/orquestador/resources/js/jquery-3.3.1.js"/>
-            <Script type="text/javascript" src="https://multicobros.banorte.com/orquestador/lightbox/checkoutV2.js"/>
+            <Script type="text/javascript"
+                    src="https://multicobros.banorte.com/orquestador/resources/js/jquery-3.3.1.js"
+            />
+            <Script type="text/javascript"
+                    src="https://multicobros.banorte.com/orquestador/lightbox/checkoutV2.js"/>
             <CardHeader className="p-5">
                 <CardTitle>Estado de Cuenta</CardTitle>
                 <CardDescription>

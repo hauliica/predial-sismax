@@ -17,6 +17,7 @@ import {
 import {notFound} from "next/navigation";
 import {Button} from "@/components/ui/button";
 import Script from "next/script";
+import {headers} from "next/headers";
 
 interface TinfoContribuyente {
     propietario: string;
@@ -49,8 +50,10 @@ interface TinfoCuenta {
 };
 
 export default async function Page({params}: { params: { cuentafolio: string } }) {
+    const headersList = headers();
     const {cuentafolio} = params;
     const predio = await getPredio(cuentafolio);
+    console.log(headersList)
 
     if (!predio) {
         notFound();

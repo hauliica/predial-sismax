@@ -28,3 +28,15 @@ export function generateControlNumber(length: number = 30): string {
 
     return result;
 }
+
+export function normalizeValues(obj: Record<string, any>): Record<string, any> {
+    const normalizedObj = {...obj};
+
+    Object.keys(normalizedObj).forEach(key => {
+        if (typeof normalizedObj[key] === 'string') {
+            normalizedObj[key] = normalizedObj[key].normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ñ/gi, 'n');
+        }
+    });
+
+    return normalizedObj;
+}

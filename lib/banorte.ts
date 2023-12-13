@@ -50,60 +50,16 @@ export function encryptJson(jsonData: string) {
     };
 }
 
-export function decryptJson(
-    ivHex: string,
-    saltHex: string,
-    passphrase: string,
-    encryptedContent: string,
-) {
-    const ivBytes = forge.util.hexToBytes(ivHex);
-    const saltBytes = forge.util.hexToBytes(saltHex);
-
-    const key = forge.pkcs5.pbkdf2(
-        passphrase,
-        saltBytes,
-        1000,
-        16,
-        forge.md.sha1.create(),
-    );
-
-    const encBytes = forge.util.decode64(encryptedContent);
-
-    const ivBuffer = forge.util.createBuffer(ivBytes, "raw");
-
-    const decipher = forge.cipher.createDecipher("AES-CTR", key);
-    decipher.start({iv: ivBytes});
-    decipher.update(forge.util.createBuffer(encBytes, "raw"));
-
-    if (!decipher.finish()) {
-        throw new Error("Failed to decrypt encrypted data");
-    }
-
-    const decryptedBytes = decipher.output.getBytes();
-    const decryptedData = forge.util.decodeUtf8(decryptedBytes);
-
-    console.log({
-        decryptedData,
-        decryptedBytes,
-        decipher,
-    });
-
-    try {
-        return JSON.parse(decryptedData);
-    } catch (e) {
-        throw new Error("Failed to parse decrypted data to JSON");
-    }
-}
-
 export function rsaEncryption(aesKey: string) {
     const certPem = readFileSync(process.env.CERTIFICATE_PATH, "utf-8");
     const cert = forge.pki.certificateFromPem(certPem);
-    const publicKey = cert.publicKey;
+    // From the certificate extract the public key
+    const rsaPK = cert.publicKey;
     const ver = cert.validity;
 
     const dataBuffer = Buffer.from(aesKey, "utf-8");
 
-    const encryptedData = publicKey.encrypt(
+    const encryptedData = rsaPK.encrypt(
         dataBuffer.toString("binary"),
         "RSA-OAEP",
         {
@@ -114,9 +70,55 @@ export function rsaEncryption(aesKey: string) {
         },
     );
 
-    console.log({certPem, publicKey, encryptedData, ver});
+    console.log({certPem, rsaPK, encryptedData, ver}, forge.util.encode64(encryptedData));
 
     return forge.util.encode64(encryptedData);
+}
+
+/* Decrypt function that takes the combined string of the encrypted passphrase and encrypted data
+ * and returns the decrypted data */
+export function decryptJson(encryptedData: string, passphrase: string, iv: string, salt: string) {
+    // Convert the Hex to Byte array
+    const ivBytes = forge.util.hexToBytes(iv);
+    const saltBytes = forge.util.hexToBytes(salt);
+
+    // Recreate the key from the passphrase and salt
+    const key = forge.pkcs5.pbkdf2(
+        passphrase,
+        saltBytes,
+        1000,
+        16,
+        forge.md.sha1.create(),
+    );
+
+    // Convert the encrypted data to a byte array
+    const encryptedDataBytes = forge.util.decode64(encryptedData);
+
+    // Create a buffer from the IV
+    const ivBuffer = forge.util.createBuffer(ivBytes, "raw");
+
+    // Create a decipher object
+    const decipher = forge.cipher.createDecipher("AES-CTR", key);
+    decipher.start({iv: ivBytes});
+    decipher.update(forge.util.createBuffer(encryptedDataBytes, "raw"));
+    decipher.finish();
+
+    // Get the clear text
+    const decrypted = decipher.output.getBytes();
+    const decryptedText = forge.util.decodeUtf8(decrypted);
+
+    console.log({
+        iv,
+        salt,
+        ivBytes,
+        saltBytes,
+        key,
+        encryptedDataBytes,
+        decrypted,
+        decryptedText
+    });
+
+    return decrypted;
 }
 
 function generateRandomString(length: number, useExtended: boolean): string {
