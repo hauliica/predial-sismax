@@ -8,7 +8,6 @@ const nextConfig = {
             fullUrl: true,
         },
     },
-
 }
 
 module.exports = nextConfig

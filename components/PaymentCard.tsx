@@ -16,16 +16,18 @@ import {
     CardFooter,
 } from "@/components/ui/card";
 import num2words from "@/lib/num2words";
-import {encryptPayload} from "@/app/actions";
 import Script from "next/script";
+import {usePaymentModal} from "@/hooks/usePaymentModal";
+import {encryptPayload} from "@/app/actions";
 
 export function EstadoCuentaCard(props) {
     const {data} = props
 
+    // console.log(data)
+
     async function empezarBanorte() {
         const cipheredData = await encryptPayload(data.pcuenta, data.pfolio);
-        console.log(cipheredData);
-
+        // console.log(cipheredData);
 
         try {
             Payment.setEnv("pro");
@@ -46,17 +48,12 @@ export function EstadoCuentaCard(props) {
                 },
             });
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     }
 
     return (
         <Card className="col-span-2 lg:col-span-4">
-            <Script type="text/javascript"
-                    src="https://multicobros.banorte.com/orquestador/resources/js/jquery-3.3.1.js"
-            />
-            <Script type="text/javascript"
-                    src="https://multicobros.banorte.com/orquestador/lightbox/checkoutV2.js"/>
             <CardHeader className="p-5">
                 <CardTitle>Estado de Cuenta</CardTitle>
                 <CardDescription>

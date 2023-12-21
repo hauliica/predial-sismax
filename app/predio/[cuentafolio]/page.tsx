@@ -1,7 +1,8 @@
 import {getPredio} from "@/app/actions";
+import {Padron} from "@prisma/client";
 import {EstadoCuentaCard} from "@/components/PaymentCard";
 import {Card, CardHeader, CardTitle, CardDescription, CardContent} from "@/components/ui/card";
-import {IdCardIcon} from "@radix-ui/react-icons";
+import {IdCardIcon, InfoCircledIcon} from "@radix-ui/react-icons";
 import {
     UserIcon,
     HomeIcon,
@@ -17,56 +18,18 @@ import {
 import {notFound} from "next/navigation";
 import {Button} from "@/components/ui/button";
 import Script from "next/script";
-import {headers} from "next/headers";
 
-interface TinfoContribuyente {
-    propietario: string;
-    dfcalle: string;
-    dfnum: string;
-    dfcolonia: string;
-    dfcd: string;
-    pcurp: string;
-    prfc: string;
-    dfcorreo: string;
-    dftel: string;
-};
-
-interface TinfoPredio {
-    dpcalle: string;
-    dpnum: string;
-    dpcolonia: string;
-    dpcd: string;
-    clavecatastral: string;
-    vcat: number;
-    terreno: number;
-    const: number;
-    uso: string;
-};
-
-interface TinfoCuenta {
-    imptotal2: number;
-    concepto1: string;
-    fechapag: string;
-};
-
-export default async function Page({params}: { params: { cuentafolio: string } }) {
-    const headersList = headers();
-    const {cuentafolio} = params;
-    const predio = await getPredio(cuentafolio);
-    console.log(headersList)
+export default async function Page({params: {cuentafolio}}) {
+    const predio: Padron = await getPredio(cuentafolio);
 
     if (!predio) {
         notFound();
     }
 
-    // Extract 3 new objects from the data from the predio object using the interfaces above
-    const infoContribuyente: TinfoContribuyente = predio;
-    const infoPredio: TinfoPredio = predio;
-    const infoCuenta: TinfoCuenta = predio;
-
-
     return (
         <main>
+            <Script src="https://multicobros.banorte.com/orquestador/resources/js/jquery-3.3.1.js"/>
+            <Script src="https://multicobros.banorte.com/orquestador/lightbox/checkoutV2.js"/>
             <div className="border-b-2 border-neutral-200">
                 <div className="container">
                     <div className="bg-white p-6 flex items-center justify-between w-full">
@@ -111,7 +74,7 @@ export default async function Page({params}: { params: { cuentafolio: string } }
                                             Nombre de Contribuyente
                                         </p>
                                         <p className="text-sm font-medium leading-none">
-                                            {infoContribuyente.propietario}
+                                            {predio.propietario}
                                         </p>
                                     </div>
                                 </div>
@@ -132,7 +95,7 @@ export default async function Page({params}: { params: { cuentafolio: string } }
                                     <div className="space-y-1">
                                         <p className="text-sm text-muted-foreground">CURP</p>
                                         <p className="text-sm font-medium leading-none">
-                                            {infoContribuyente.pcurp}
+                                            {predio.pcurp}
                                         </p>
                                     </div>
                                 </div>
@@ -141,7 +104,7 @@ export default async function Page({params}: { params: { cuentafolio: string } }
                                     <div className="space-y-1">
                                         <p className="text-sm text-muted-foreground">RFC</p>
                                         <p className="text-sm font-medium leading-none">
-                                            {infoContribuyente.prfc}
+                                            {predio.prfc}
                                         </p>
                                     </div>
                                 </div>
@@ -152,7 +115,7 @@ export default async function Page({params}: { params: { cuentafolio: string } }
                                             Correo Electrónico
                                         </p>
                                         <p className="text-sm font-medium leading-none">
-                                            {infoContribuyente.dfcorreo ?? "Sin Correo"}
+                                            {predio.dfcorreo ?? "Sin Correo"}
                                         </p>
                                     </div>
                                 </div>
@@ -161,7 +124,7 @@ export default async function Page({params}: { params: { cuentafolio: string } }
                                     <div className="space-y-1">
                                         <p className="text-sm text-muted-foreground">Teléfono</p>
                                         <p className="text-sm font-medium leading-none">
-                                            {infoContribuyente.dftel}
+                                            {predio.dftel}
                                         </p>
                                     </div>
                                 </div>
@@ -186,8 +149,8 @@ export default async function Page({params}: { params: { cuentafolio: string } }
                                             Domicilio del Predio
                                         </p>
                                         <p className="text-sm font-medium leading-none">
-                                            {infoPredio.dpcalle} #{infoPredio.dpnum}, {infoPredio.dpcolonia},{" "}
-                                            {infoPredio.dpcd}
+                                            {predio.dpcalle} #{predio.dpnum}, {predio.dpcolonia},{" "}
+                                            {predio.dpcd}
                                         </p>
                                     </div>
                                 </div>
@@ -199,7 +162,7 @@ export default async function Page({params}: { params: { cuentafolio: string } }
                                             Clave Catastral
                                         </p>
                                         <p className="text-sm font-medium leading-none">
-                                            {infoPredio.clavecatastral}
+                                            {predio.clavecatastral}
                                         </p>
                                     </div>
                                 </div>
@@ -211,7 +174,7 @@ export default async function Page({params}: { params: { cuentafolio: string } }
                                             Valor Catastral
                                         </p>
                                         <p className="text-sm font-medium leading-none">
-                                            $ {infoPredio.vcat.toLocaleString("es-MX", {maximumFractionDigits: 2})}
+                                            $ {predio.vcat.toLocaleString("es-MX", {maximumFractionDigits: 2})}
                                         </p>
                                     </div>
                                 </div>
@@ -223,7 +186,7 @@ export default async function Page({params}: { params: { cuentafolio: string } }
                                             Superificie de Terreno
                                         </p>
                                         <p className="text-sm font-medium leading-none">
-                                            {infoPredio.terreno} m²
+                                            {predio.terreno} m²
                                         </p>
                                     </div>
                                 </div>
@@ -235,7 +198,7 @@ export default async function Page({params}: { params: { cuentafolio: string } }
                                             Superficie de Construccion
                                         </p>
                                         <p className="text-sm font-medium leading-none">
-                                            {infoPredio.const} m²
+                                            {predio.const} m²
                                         </p>
                                     </div>
                                 </div>
@@ -247,7 +210,7 @@ export default async function Page({params}: { params: { cuentafolio: string } }
                                             Uso del Predio
                                         </p>
                                         <p className="text-sm font-medium leading-none">
-                                            {infoPredio.uso}
+                                            {predio.uso}
                                         </p>
                                     </div>
                                 </div>
@@ -255,7 +218,7 @@ export default async function Page({params}: { params: { cuentafolio: string } }
                         </Card>
 
                         {/* Card 3: Estado de Cuenta */}
-                        <EstadoCuentaCard data={infoCuenta}/>
+                        <EstadoCuentaCard data={predio}/>
                     </div>
                 </div>
             </section>

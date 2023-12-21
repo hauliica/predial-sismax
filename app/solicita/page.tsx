@@ -1,7 +1,15 @@
-export default function Page() {
+"use client"
+
+import React from "react";
+import {z} from "zod";
+import {FormField, FormInput, FormLabel, FormProvider} from "@/components/form";
+import {Button} from "@/components/ui/button";
+
+
+export default function SolicitaPage() {
     return (
-        <div>
-            <h2>Solicita</h2>
-        </div>
+        <main>
+
+        </main>
     )
 }
