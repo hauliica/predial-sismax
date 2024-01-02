@@ -1,27 +1,14 @@
 "use client";
 
-import {
-    CalendarIcon,
-    FileArchiveIcon,
-    ReceiptIcon,
-    CreditCardIcon,
-} from "lucide-react";
+import {CalendarIcon, CreditCardIcon, FileArchiveIcon, ReceiptIcon,} from "lucide-react";
 import FullViewportModal from "@/components/LoadingOverlay";
 import {Button} from "@/components/ui/button";
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent,
-    CardFooter,
-} from "@/components/ui/card";
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle,} from "@/components/ui/card";
 import num2words from "@/lib/num2words";
 import Script from "next/script";
 import {encryptPayload, saveBanorteResponse} from "@/app/actions";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {ReloadIcon} from "@radix-ui/react-icons";
-import {cn} from "@/lib/utils";
 
 export function PaymentCard(props) {
     const [isBanorteReady, setIsBanorteReady] = useState(false);
@@ -33,8 +20,7 @@ export function PaymentCard(props) {
 
         if (!isBanorteReady) {
             console.error("Payment processor is not ready");
-            setIsModalLoading(false);
-            return;
+            throw new Error("El procesador de pagos no esta listo")
         }
 
         const cipheredData = await encryptPayload(data.pcuenta, data.pfolio);
@@ -65,7 +51,6 @@ export function PaymentCard(props) {
             });
         } catch (error) {
             console.log(error);
-        } finally {
             setIsModalLoading(false);
         }
     }

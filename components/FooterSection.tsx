@@ -96,7 +96,7 @@ export default function FooterSection() {
                     </div>
                     <div>
                         <div className="mb-4 font-bold uppercase tracking-widest text-gray-800">
-                            Products
+
                         </div>
 
                         <nav className="flex flex-col gap-4">
@@ -139,7 +139,7 @@ export default function FooterSection() {
                     </div>
                     <div>
                         <div className="mb-4 font-bold uppercase tracking-widest text-gray-800">
-                            Company
+                            Contacto
                         </div>
 
                         <nav className="flex flex-col gap-4">
@@ -191,7 +191,7 @@ export default function FooterSection() {
                     </div>
                     <div>
                         <div className="mb-4 font-bold uppercase tracking-widest text-gray-800">
-                            Support
+                            Soporte
                         </div>
 
                         <nav className="flex flex-col gap-4">

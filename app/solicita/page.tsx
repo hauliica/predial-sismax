@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useMemo, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
 import {Button} from "@/components/ui/button";
@@ -25,6 +25,30 @@ function LoadingOverlay() {
     );
 }
 
+function FormField({name, label, placeholder, type, formState}) {
+    const errorMessage = formState.message?.[name];
+
+    return (
+        <div>
+            <Label htmlFor={name}>
+                {label}
+            </Label>
+            <Input
+                type={type}
+                name={name}
+                className={`mt-1 block w-full focus-visible:border-slate-300  ${errorMessage ? "border-destructive " : ""}`}
+                id={name}
+                placeholder={placeholder}
+                required
+                variant={errorMessage ? "error" : "default"}
+            />
+            {errorMessage && (
+                <p className="text-destructive text-xs mt-1">{errorMessage[0]}</p>
+            )}
+        </div>
+    )
+}
+
 function SubmitButton() {
     const {pending} = useFormStatus();
 
@@ -44,6 +68,30 @@ export default function SolicitaPage() {
         status: null,
         message: null,
     });
+
+    useEffect(() => {
+        console.log(state);
+    }, [state]);
+    // RETURN EXAMPLE
+    /*
+    {
+    "status": "Error",
+    "message": {
+        "curp": [
+            "La CURP debe tener 18 caracteres"
+        ],
+        "codigoPostal": [
+            "El código postal debe tener 5 dígitos"
+        ],
+        "telefono": [
+            "El teléfono debe tener 10 dígitos"
+        ],
+        "correo": [
+            "El correo electrónico no es válido"
+        ]
+    }
+}
+     */
 
     const isSuccess = state.status === "Success";
     console.log("isSuccess: ", isSuccess);
@@ -92,89 +140,36 @@ export default function SolicitaPage() {
                                 <h2 className="text-lg font-semibold my-4">Información Personal</h2>
                                 <div className="grid gap-5 my-6 sm:grid-cols-2">
                                     {/* nombre */}
-                                    <div>
-                                        <Label htmlFor="nombre"
-                                               className="block mb-2 text-sm font-medium text-gray-900">Nombre(s)</Label>
-                                        <Input type="text" name="nombre" id="nombre"
-
-                                               placeholder="Juan" required/>
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="apellidoPaterno"
-                                               className="block mb-2 text-sm font-medium text-gray-900">Apellido
-                                            Paterno</Label>
-                                        <Input type="text" name="apellidoPaterno" id="apellidoPaterno"
-
-                                               placeholder="Perez" required/>
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="apellidoMaterno"
-                                               className="block mb-2 text-sm font-medium text-gray-900">Apellido
-                                            Materno</Label>
-                                        <Input type="text" name="apellidoMaterno" id="apellidoMaterno"
-                                               className=""
-                                               placeholder="Perez" required/>
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="curp"
-                                               className="block mb-2 text-sm font-medium text-gray-900">CURP</Label>
-                                        <Input type="text" name="curp" id="curp"
-
-                                               placeholder="PERJ980101HDFRRL09" required/>
-                                    </div>
+                                    <FormField name="nombre" label="Nombre(s)" placeholder="Juan" type="text"
+                                               formState={state}/>
+                                    <FormField label="Apellido Paterno" name="apellidoPaterno" placeholder="Perez"
+                                               type="text" formState={state}/>
+                                    <FormField label="Apellido Materno" name="apellidoMaterno" placeholder="Lopez"
+                                               type="text" formState={state}/>
+                                    <FormField label="CURP" name="curp" placeholder="PELJ010101HCMLNS09" type="text"
+                                               formState={state}/>
                                 </div>
-                                {/* ... Other sections of the form */}
                                 <h2 className="text-lg font-semibold my-4">Direccion</h2>
                                 <div className="grid gap-5 my-6 sm:grid-cols-2">
-                                    {/*  Codigo Postal*/}
-                                    <div>
-                                        <Label htmlFor="codigoPostal"
-                                               className="block mb-2 text-sm font-medium text-gray-900">Codigo
-                                            Postal</Label>
-                                        <Input type="text" name="codigoPostal" id="codigoPostal"
-                                               placeholder="12345" required/>
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="colonia"
-                                               className="block mb-2 text-sm font-medium text-gray-900">Colonia</Label>
-                                        <Input type="text" name="colonia" id="colonia"
-                                               placeholder="Centro" required/>
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="calle"
-                                               className="block mb-2 text-sm font-medium text-gray-900">Calle</Label>
-                                        <Input type="text" name="calle" id="calle"
-                                               placeholder="Calle 1" required/>
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="numeroExterior"
-                                               className="block mb-2 text-sm font-medium text-gray-900">Numero
-                                            Exterior</Label>
-                                        <Input type="text" name="numeroExterior" id="numeroExterior"
-                                               placeholder="123" required/>
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="numeroInterior"
-                                               className="block mb-2 text-sm font-medium text-gray-900">Numero
-                                            Interior</Label>
-                                        <Input type="text" name="numeroInterior" id="numeroInterior"
-                                        />
-                                    </div>
+
+                                    <FormField label="Codigo Postal" type="text" name="codigoPostal"
+                                               placeholder="26253" formState={state}/>
+                                    <FormField label="Colonia" type="text" name="colonia" placeholder="Centro"
+                                               formState={state}/>
+                                    <FormField label="Calle" type="text" name="calle" placeholder="Juan de la Barrera"
+                                               formState={state}/>
+                                    <FormField label="Numbero Exterior" name="numeroExterior" type="text"
+                                               placeholder="1266" formState={state}/>
+                                    <FormField label="Numero Interior" name="numeroInterior" type="text"
+                                               placeholder="1466" formState={state}/>
                                 </div>
+
                                 <h2 className="text-lg font-semibold my-4">Contacto</h2>
                                 <div className="grid gap-5 my-6 sm:grid-cols-2">
-                                    <div>
-                                        <Label htmlFor="telefono"
-                                               className="block mb-2 text-sm font-medium text-gray-900">Telefono</Label>
-                                        <Input type="text" name="telefono" id="telefono"
-                                               placeholder="1234567890" required/>
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="correo"
-                                               className="block mb-2 text-sm font-medium text-gray-900">Correo</Label>
-                                        <Input type="text" name="correo" id="correo"
-                                               placeholder="correo@electronico.com" required/>
-                                    </div>
+                                    <FormField label="Telefono o Celular" name="telefono" placeholder="8771234567"
+                                               type="text" formState={state}/>
+                                    <FormField label="Correo Electronico" name="correo"
+                                               placeholder="correo@electronico.com" type="email" formState={state}/>
                                 </div>
 
                                 <div className="mb-6 space-y-3">
@@ -190,7 +185,7 @@ export default function SolicitaPage() {
                                             />
                                         </div>
                                         <div className="ml-3 text-sm">
-                                            <Label htmlFor="terms" className="font-light text-gray-500 ">
+                                            <Label htmlFor="terms" className="font-light text-gray-600 ">
                                                 Al enviar este formulario, estás solicitando tu Cuenta-Folio y aceptas
                                                 los{" "}
                                                 <a className="font-medium text-amber-600 hover:underline" href="#">
@@ -215,7 +210,7 @@ export default function SolicitaPage() {
                                             />
                                         </div>
                                         <div className="ml-3 text-sm">
-                                            <label htmlFor="notifications" className="font-light text-gray-500 ">
+                                            <label htmlFor="notifications" className="font-light text-gray-600">
                                                 Envíame actualizaciones y notificaciones relacionadas con el Impuesto
                                                 Predial.
                                             </label>
@@ -237,5 +232,6 @@ export default function SolicitaPage() {
                 </div>
             )}
         </main>
-    );
+    )
+        ;
 }

@@ -1,4 +1,4 @@
-import {solicitaAction, saveBanorteResponse, validateCuentaFolio} from '@/app/actions';
+import {solicitaAction, validateCuentaFolio} from '@/app/actions';
 import {PrismaClient} from '@prisma/client';
 import {decryptJson} from "@/lib/banorte";
 
@@ -54,21 +54,24 @@ describe('Prisma Client', () => {
     });
 
     describe("Save Banorte Response", () => {
+        it("Should correctly use the saveBanorteResponse Function", async () => {
+
+        })
         it("Should save the banorte response in the database", async () => {
             const encryptionDetails = {
-                salt: '35653478736a756c6533616462763363',
-                passphrase: '3Qm9h0SvBRMGGaoq',
-                iv: '3862363239347633743367676a637a6f',
-                controlNumber: 'Rkzq4H1d4Mbd9mf3u58z8PG5I'
+                salt: '6e6f666863366f696f77723462643865',
+                passphrase: 'OdW7S9V3c6/TofEG',
+                iv: '736f7068783168766379707762397a70',
+                controlNumber: 'aLeUtvvvSIsZpTd6d7TPFuLd3'
             }
 
             const banorteResponse = {
-                data: '19HimscEUhR+EnrHJSapMvaKQ6tJaSf/oO+ubep/M+Vs9MtAo73hVhGEZ6+I/Xl3BIVDcl9b7IjgBWsQhIj2WOV+m3prEVGpcczaCH+/ioX+2skeuDDb5d3JxZI/9PaFv6H4OtSWlL4oZAL3phVXi32KbP4PGLJyLADtYVQ4fIDTtqy0tmKbnXLVEfGGZOf/xGHn3XJp9Ub6XjT7kmwnS/bK5o0uf6SM/Mn7mMGKY5PvFzPXGmR33Q9XRtaw5sWIDqFTCadYmIcNI5/14pCVxyTyK5+2mW9Io7H8COA4NlW5eJvjtLc6A7b1Si3aYaMD74YskwlicfWXoQW7SwST2W0LfYvx2Flnju4zADLBhQeMN8uA7vzUIUEeVo5KYV6LkeJtThwZWfBHs1A+5cKhxTeSbo+3d3hj60PsrR8PJI6UiZiZVlvER9NUpWlDv0IP3uZGoXVGBnKJ3E6mwpbaosMs0bt96IpNit2B2y9nj5V4oKaSMwQ1jY5tZZsWG0iFQCon+8/hDTqv9t7kde39OBHIkg==',
+                data: 'uAV4BrpEomPE+jtLaRrcoeSTx1Ca5uKg8PyGENKVCrbIl2LZV3SPibFpb2TCsMSMbp6/65qrgpCwi+fZqosf5xzi3kCDuDy/RVAln0PB7/VSDcEFNdzYspGNQHlGxCQIwkIelECrXBlUcZ0bPC3QKTh6q5eRfaTW4NTOMg5rL5yOofvcd1Zj5jmnMmgAKk8khWl+tw8qtRYR0yGRfiRq6Bh7JZ6k8puScK+ra12rSzhmyEawmGdYh2VZ1bu8T5+LA5C0da5wYZVb+oUtg1sFc5JLtdWGjyMR2jkyQzlgV8PyHtgVOm/n+b6eZRxc27Lwr3avAK0m+uO7fTEtlj7iRlz4s4MnlfIc7t666ooT5WttcoeVaL9S0C8sLWLlSnw/SBft9AppKVNQdwlaxA8S+4qr8fN0K2v5V2l33ZpLkRP7NiD6KGrd/7khOaq+OKI2gEmrSUPAX4Sdwv8jiKwwmdv7fd00fu/XFFa1gvd74PVmHkW8bU/jKxuJ99hqNgMzGQ3jJFsvjMy1VlzqjtPZlGDpuA==',
                 status3D: '200',
-                eci: '05',
+                eci: '02',
                 id: 2,
                 message: 'operationSuccessfully',
-                numeroControl: 'Rkzq4H1d4Mbd9mf3u58z8PG5I'
+                numeroControl: 'aLeUtvvvSIsZpTd6d7TPFuLd3'
             }
 
 

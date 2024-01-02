@@ -119,16 +119,22 @@ export async function solicitaAction(prevState, formData: FormData) {
         })
 
         console.log("SOLICITUD GRABADA", newSolicitud);
-        return {
-            status: "Success",
-            message: "Solicitud guardada correctamente"
-        }
     } catch (error) {
         console.error(error);
         return {
-            status: "Error",
-            message: "Error al guardar la solicitud"
+            message: `Error al guardar la solicitud ${error.toString()}`
         }
+    }
+
+    return {
+        status: "success",
+        // Return the created solicitud, flattened.
+        message: Object.fromEntries(Object.entries(result.data).map(([key, value]) => {
+            if (typeof value === "boolean") {
+                return [key, value ? "Si" : "No"];
+            }
+            return [key, value];
+        })),
     }
 }
 
@@ -137,18 +143,18 @@ export async function solicitaAction(prevState, formData: FormData) {
 export async function saveBanorteResponse(payload: any) {
     try {
         console.log("PAYLOAD RAW:", payload);
-        const controlNumber = payload.numeroControl;
+        const numCtrl = payload.numeroControl;
         const encryptedFields = payload.data;
         // Get the salt, vi, and passphrase from the DB Table encryption_details, using the controlNumber.
         const encryptionDetailsParams = await db.encryptionDetail.findFirst({
             where: {
-                controlNumber: controlNumber,
+                controlNumber: numCtrl,
             },
         });
         console.log(encryptionDetailsParams);
 
         // Decrypt the payload using the salt, vi, and passphrase.
-        const decryptedPayload = decryptJson(encryptedFields, encryptionDetailsParams.passphrase, encryptionDetailsParams.vi, encryptionDetailsParams.salt);
+        const decryptedPayload = decryptJson(encryptedFields, encryptionDetailsParams.passphrase, encryptionDetailsParams.iv, encryptionDetailsParams.salt);
         const dataJson = JSON.parse(decryptedPayload);
         const banorteResponseWithDecryptedData = {
             ...payload,
@@ -158,7 +164,7 @@ export async function saveBanorteResponse(payload: any) {
         console.log(banorteResponseWithDecryptedData);
 
         // Save the object in the DB Table PaymentTransactions.
-        const paymentTransaction = await db.transaccionesBanorte.create({
+        const paymentTransaction = await db.banorteTransacciones.create({
             data: banorteResponseWithDecryptedData,
         });
 
