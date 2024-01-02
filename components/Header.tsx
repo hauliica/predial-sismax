@@ -40,7 +40,7 @@ function Header() {
                         </Link>
                     </div>
                     <div className="hidden sm:ml-6 sm:flex sm:items-center">
-                        <Link href="#pago">
+                        <Link href="#consulta">
                             <Button
                                 variant="ghost"
                                 size="sm"

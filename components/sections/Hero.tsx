@@ -26,7 +26,7 @@ export default function Hero() {
                         className="mt-4 flex flex-col space-y-2 sm:flex-row sm:justify-evenly sm:space-x-4 sm:space-y-0 lg:justify-start">
                         <Button size="lg"><Link href="#consulta">¡Paga Ahora!</Link></Button>
                         <Button variant="outline" size="lg">
-                            Solicita tu Cuenta Folio
+                            <Link href="/solicita">Solicita tu Cuenta Folio</Link>
                         </Button>
                     </div>
                 </div>
