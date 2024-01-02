@@ -19,7 +19,6 @@ export default function PlaygroundPage() {
     return (
         <div className="bg-gray-100 dark:bg-black p-5 min-h-screen">
             <div className="max-w-4xl mx-auto py-10 space-y-4">
-                {/* Owner Information */}
                 <div className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 rounded-lg">
                     <div className="p-4">
                         <div className="flex items-center">
@@ -40,7 +39,6 @@ export default function PlaygroundPage() {
                     </div>
                 </div>
 
-                // Payment History
                 <div className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 rounded-lg">
                     <div className="p-4">
                         <h5 className="text-lg font-semibold mb-3 dark:text-gray-200">Payment History</h5>
@@ -65,14 +63,12 @@ export default function PlaygroundPage() {
                                         </button>
                                     </td>
                                 </tr>
-                                {/* More table rows */}
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
 
-                // Current Amount Due
                 <div className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 rounded-lg">
                     <div className="p-4">
                         <h5 className="text-lg font-semibold mb-2 dark:text-gray-200">Current Amount Due</h5>
@@ -91,7 +87,6 @@ export default function PlaygroundPage() {
                     </div>
                 </div>
 
-                // Payment Modal
                 {isOpen && (
                     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full"
                          id="my-modal">
@@ -100,12 +95,10 @@ export default function PlaygroundPage() {
                                 <h5 className="text-lg font-semibold dark:text-gray-200">Payment Options</h5>
                                 <div className="mt-2 px-7 py-3">
                                     <div className="flex flex-col space-y-4">
-                                        {/* Buttons for payment options */}
                                         <button
                                             className="flex justify-center items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
                                             Credit / Debit Card <WalletCards className="h-4 w-4 ml-2"/>
                                         </button>
-                                        {/* ... other buttons ... */}
                                     </div>
                                 </div>
                             </div>
