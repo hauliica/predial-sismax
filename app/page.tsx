@@ -5,7 +5,7 @@ import ImportanciaSection from "@/components/sections/ImportanciaSection";
 import VentajasSection from "@/components/sections/VentajasSection";
 import FooterSection from "@/components/FooterSection";
 
-export default async function Home() {
+export default function Home() {
     return (
         <main className="">
             <Hero/>

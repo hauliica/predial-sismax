@@ -1,101 +1,173 @@
-import React, {useCallback, useState, createContext, useContext} from "react";
-import * as zod from 'zod';
+import {useFormState} from "react-dom";
+import React, {createContext, ReactNode, useContext, useRef, useState} from "react";
+import {cn} from "@/lib/utils";
+import {Label} from "@/components/ui/label";
+import * as LabelPrimitive from "@radix-ui/react-label"
+import {Slot} from "@radix-ui/react-slot";
 
-const FormContext = createContext(undefined);
+const FormContext = createContext<{ state: any; formActionHook: any } | null>(null);
+const FormFieldContext = createContext<{ name: string; error: string | null } | null>(null);
 
-const useFormContext = () => {
-    const context = useContext(FormContext);
-    if (!context) {
-        throw new Error("useFormContext must be used within a FormProvider");
-    }
-
-    return context;
+function formAction(previousState: any, formData: any) {
+    // TODO: form submission logic
+    return {...previousState, ...formData};
 }
 
-const FormProvider = ({children, initialData = {}, schema, onSubmit}) => {
-    const [formData, setFormData] = useState(initialData);
-    const [errors, setErrors] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
+interface FormProps {
+    children: ReactNode;
+}
 
-    // Custom Validation
-    const validateField = (name, value) => {
-        // TODO: Validation
-    }
+interface FormFieldProps {
+    name: string;
+    children: ReactNode;
+}
 
-    // Reset form to initial state
-    const resetForm = useCallback(() => {
-        setFormData(initialData);
-        setErrors({})
-    }, [initialData])
+interface FormItemProps extends React.HTMLAttributes<HTMLDivElement> {
+    className?: string;
+}
 
-    // Handle form submission
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        setIsSubmitting(true);
+interface FormLabelProps extends React.ComponentPropsWithoutRef <typeof LabelPrimitive.Root> {
+    className?: string;
+}
 
-        try {
-            Object.entries(formData).forEach(([key, value]) => validateField(key, value));
-            schema.parse(formData);
-            setErrors({});
+interface FormControlProps extends React.ComponentPropsWithoutRef<typeof Slot> {
+    className?: string
+}
 
-            await onSubmit(formData);
-            resetForm();
-        } catch (error) {
-            if (error instanceof zod.ZodError) {
-                setErrors(error.errors.reduce((acc, val) => {
-                    acc[val.path[0]] = val.message;
-                    return acc;
-                }, {}));
-            }
-            // Handle other errors
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
+interface FormDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {
+    className?: string;
+}
+
+interface FormMessageProps extends React.HTMLAttributes<HTMLParagraphElement> {
+    className?: string;
+}
+
+const Form = ({children}: FormProps) => {
+    const [state, formActionHook] = useFormState(formAction, {});
 
     return (
-        <FormContext.Provider value={{formData, setFormData, errors, setErrors, isSubmitting}}>
-            <form onSubmit={handleSubmit}>
+        <FormContext.Provider value={{state, formActionHook}}>
+            <form action={formActionHook}>
                 {children}
             </form>
         </FormContext.Provider>
     );
 };
 
-// Set display name for dev tools
-FormProvider.displayName = "FormProvider";
+const FormField = ({name, children}: FormFieldProps) => {
+    const [error, setError] = useState<string | null>(null);
 
-// Field Component
-const FormField = ({name, children}) => {
-    const {formData, setFormData, errors} = useFormContext();
+    // Validation or either logic to determine the error state can be added here
 
-    const handleChange = (event) => {
-        const {value} = event.target;
-        setFormData(prev => ({...prev, [name]: value}));
-    };
-
-    return React.cloneElement(children, {
-        onChange: handleChange,
-        value: formData[name] || '',
-        error: errors[name],
-    });
+    return (
+        <FormFieldContext.Provider value={{name, error}}>
+            <div>
+                {children}
+            </div>
+        </FormFieldContext.Provider>
+    );
 };
 
-FormField.displayName = "FormField";
+function useFormField() {
+    const fieldContext = useContext(FormFieldContext);
+    const formContext = useContext(FormContext);
 
-const FormInput = React.forwardRef(({error, ...props}, ref) => (
-    <div>
-        <input ref={ref} aria-invalid={!!error} {...props} />
-        {error && <span role="alert">{error}</span>}
-    </div>
-));
+    if (!fieldContext || !formContext) {
+        throw new Error("useFormField must be used within a <FormField /> inside a <Form/>")
+    }
 
-FormInput.displayName = "FormInput";
+    const id = useRef(`form-field-${Math.random().toString(36).substring(2, 9)}`).current;
 
-const FormLabel = React.forwardRef(({htmlFor, ...props}, ref) => (
-    <label ref={ref} htmlFor={htmlFor} {...props} />
-));
+    return {
+        id,
+        name: fieldContext.name,
+        value: formContext.state[fieldContext.name] || "",
+        error: fieldContext.error,
+        setError: (error: string) => {
+            // TODO: add logic to set the error state
+        },
+    };
+}
+
+const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(({className, ...props}, ref) => {
+    return <div ref={ref} className={cn("space-y-2", className)} {...props} />;
+});
+
+FormItem.displayName = "FormItem";
+
+
+const FormLabel = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, FormLabelProps>(
+    ({className, ...props}, ref) => {
+        const {id, error} = useFormField();
+
+        return (
+            <Label
+                ref={ref}
+                className={cn(error ? "text-destructive" : "", className)}
+                htmlFor={id}
+                {...props}
+            />
+        );
+    }
+)
 
 FormLabel.displayName = "FormLabel";
 
-export {FormProvider, FormField, FormInput, FormLabel}
+const FormControl = React.forwardRef<React.ElementRef<typeof Slot>, FormControlProps>(
+    ({className, ...props}, ref) => {
+        const {id} = useFormField();
+
+        return <Slot ref={ref} id={id} className={className} {...props} />;
+    }
+)
+
+FormControl.displayName = "FormControl";
+
+const FormDescription = React.forwardRef<HTMLParagraphElement, FormDescriptionProps>(
+    ({className, children, ...props}, ref) => {
+        const {id} = useFormField();
+
+        return (
+            <p
+                ref={ref}
+                id={`${id}-description`}
+                className={cn("text-[0.8rem] text-muted-foreground", className)}
+                {...props}
+            >
+                {children}
+            </p>
+        );
+    }
+)
+
+FormDescription.displayName = "FormDescription"
+
+const FormMessage = React.forwardRef<HTMLParagraphElement, FormMessageProps>(
+    ({className, children, ...props}, ref) => {
+        const {id, error} = useFormField();
+        const message = error ? error : children;
+
+        return (
+            <p
+                ref={ref}
+                id={`${id}-message`}
+                className={cn("text-[0.8rem] font-medium", error ? "text-destructive" : "", className)}
+                {...props}
+            >
+                {children}
+            </p>
+        )
+    }
+)
+
+FormMessage.displayName = "FormMessage";
+
+export {
+    Form,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormControl,
+    FormDescription,
+    FormMessage,
+};

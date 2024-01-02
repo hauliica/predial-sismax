@@ -1,8 +1,10 @@
 import {HeroImage} from "@/assets/HeroImage";
 import {Button} from "@/components/ui/button";
 import {ArrowRightIcon} from "@radix-ui/react-icons";
+import Link from "next/link";
 
 export default function Hero() {
+
     return (
         <section
             className="min-h-[calc(100vh-65px)] bg-white/70 bg-gradient-to-b from-orange-100 from-0% via-orange-200  via-30%  to-gray-50 bg-blend-overlay">
@@ -22,7 +24,7 @@ export default function Hero() {
                     </p>
                     <div
                         className="mt-4 flex flex-col space-y-2 sm:flex-row sm:justify-evenly sm:space-x-4 sm:space-y-0 lg:justify-start">
-                        <Button size="lg">¡Paga Ahora!</Button>
+                        <Button size="lg"><Link href="#consulta">¡Paga Ahora!</Link></Button>
                         <Button variant="outline" size="lg">
                             Solicita tu Cuenta Folio
                         </Button>

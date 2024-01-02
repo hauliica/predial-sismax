@@ -1,6 +1,6 @@
 import {getPredio} from "@/app/actions";
 import {Padron} from "@prisma/client";
-import {EstadoCuentaCard} from "@/components/PaymentCard";
+import {PaymentCard} from "@/components/PaymentCard";
 import {Card, CardHeader, CardTitle, CardDescription, CardContent} from "@/components/ui/card";
 import {IdCardIcon, InfoCircledIcon} from "@radix-ui/react-icons";
 import {
@@ -19,8 +19,9 @@ import {notFound} from "next/navigation";
 import {Button} from "@/components/ui/button";
 import Script from "next/script";
 
-export default async function Page({params: {cuentafolio}}) {
-    const predio: Padron = await getPredio(cuentafolio);
+export default async function Page({params}: { params: { cuentafolio: string } }) {
+    const predio: Padron | null = await getPredio(params.cuentafolio)
+    const cuentafolio = params.cuentafolio;
 
     if (!predio) {
         notFound();
@@ -28,8 +29,7 @@ export default async function Page({params: {cuentafolio}}) {
 
     return (
         <main>
-            <Script src="https://multicobros.banorte.com/orquestador/resources/js/jquery-3.3.1.js"/>
-            <Script src="https://multicobros.banorte.com/orquestador/lightbox/checkoutV2.js"/>
+
             <div className="border-b-2 border-neutral-200">
                 <div className="container">
                     <div className="bg-white p-6 flex items-center justify-between w-full">
@@ -218,7 +218,7 @@ export default async function Page({params: {cuentafolio}}) {
                         </Card>
 
                         {/* Card 3: Estado de Cuenta */}
-                        <EstadoCuentaCard data={predio}/>
+                        <PaymentCard data={predio}/>
                     </div>
                 </div>
             </section>

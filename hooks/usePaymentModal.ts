@@ -1,20 +1,47 @@
+import {useState, useEffect} from "react";
 import {encryptPayload} from "@/app/actions";
 
-export function usePaymentModal(data) {
-    function startPaymentProcess() {
+export default function usePaymentModal() {
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        console.log("usePaymentModal");
+    }, [])
+
+    const startPayment = async (data) => {
+        setIsLoading(true);
+
         try {
             Payment.setEnv("pro");
+            const cipheredData = await encryptPayload(data.pcuenta, data.pfolio);
+
             Payment.startPayment({
-                Params: data,
-                onClosed: (response) => console.log(response),
-                onError: (response) => console.log(response),
-                onSuccess: (response) => console.log(response),
-                onCancel: (response) => console.log(response),
-            });
+                params: cipheredData,
+                onSuccess: (response) => {
+                    console.log("Pago exitoso: ", response);
+                    setIsLoading(false);
+                },
+                onError: (error) => {
+                    console.log("Error en el pago: ", error);
+                    setIsLoading(false);
+                },
+                onCancel: () => {
+                    console.log("Pago cancelado");
+                    setIsLoading(false);
+                },
+                onClosed: () => {
+                    console.log("Pago cerrado");
+                    setIsLoading(false);
+                }
+            })
         } catch (error) {
-            console.log("Error al encriptar datos.", error);
+            console.log("Error al iniciar el pago: ", error);
         }
+    };
+
+    return {
+        isLoading,
+        startPayment
     }
 
-    return {startPaymentProcess};
 }

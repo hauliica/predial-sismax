@@ -23,6 +23,7 @@ export default function CTASection() {
 
     return (
         <section
+            id="consulta"
             className="flex w-full items-center justify-center overflow-x-hidden py-8"
         >
             <div
