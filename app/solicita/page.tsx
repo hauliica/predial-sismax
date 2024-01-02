@@ -31,9 +31,9 @@ function SubmitButton() {
     return (
         <>
             {pending && <LoadingOverlay/>}
-            <button type="submit" aria-disabled={pending}>
-                Add
-            </button>
+            <Button type="submit" aria-disabled={pending}>
+                Enviar Solicitud
+            </Button>
         </>
     );
 }
@@ -94,21 +94,23 @@ export default function SolicitaPage() {
                                     {/* nombre */}
                                     <div>
                                         <Label htmlFor="nombre"
-                                               className="block mb-2 text-sm font-medium text-gray-900">Nombre</Label>
+                                               className="block mb-2 text-sm font-medium text-gray-900">Nombre(s)</Label>
                                         <Input type="text" name="nombre" id="nombre"
 
                                                placeholder="Juan" required/>
                                     </div>
                                     <div>
                                         <Label htmlFor="apellidoPaterno"
-                                               className="block mb-2 text-sm font-medium text-gray-900">Apellido</Label>
+                                               className="block mb-2 text-sm font-medium text-gray-900">Apellido
+                                            Paterno</Label>
                                         <Input type="text" name="apellidoPaterno" id="apellidoPaterno"
 
                                                placeholder="Perez" required/>
                                     </div>
                                     <div>
                                         <Label htmlFor="apellidoMaterno"
-                                               className="block mb-2 text-sm font-medium text-gray-900">Apellido</Label>
+                                               className="block mb-2 text-sm font-medium text-gray-900">Apellido
+                                            Materno</Label>
                                         <Input type="text" name="apellidoMaterno" id="apellidoMaterno"
                                                className=""
                                                placeholder="Perez" required/>
@@ -221,7 +223,7 @@ export default function SolicitaPage() {
                                     </div>
                                 </div>
                                 {/* Submit button */}
-                                <div className="justify-end mt-4 flex space-x-3">
+                                <div className="justify-stretch mt-4 flex space-x-3">
                                     <Button type="reset" variant="outline">
                                         Empezar de nuevo
                                     </Button>
