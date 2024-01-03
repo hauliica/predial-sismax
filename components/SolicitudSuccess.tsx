@@ -6,7 +6,7 @@ import {CheckCircleIcon, InboxIcon} from "lucide-react";
 export default function SolicitudSuccess() {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8">
+            <div className="max-w-lg w-full space-y-8">
                 <div
                     className="rounded-lg shadow-xl overflow-hidden p-6 space-y-6 bg-white border-t-4 border-green-500">
                     <div className="text-center space-y-4">
@@ -22,11 +22,11 @@ export default function SolicitudSuccess() {
                             <div>
                                 <InboxIcon className="mx-auto h-10 w-10 text-blue-500"/>
                                 <p className="text-md text-gray-800">
-                                    Revisa tu correo electrónico
+                                    En breve recibirás un correo electrónico con los siguientes pasos a seguir.
                                 </p>
-                                <p className="text-sm text-gray-500">
-                                    Te hemos enviado un mensaje con los siguientes pasos a seguir para completar tu
-                                    solicitud.
+                                <p className="text-sm mt-2 px-12 text-gray-500">
+                                    Si no recibes el correo electrónico en las próximas 24 horas, por favor
+                                    contáctanos.
                                 </p>
                             </div>
                         </div>
