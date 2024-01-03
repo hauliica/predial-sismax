@@ -46,7 +46,13 @@ export default function num2words(amount: number | string): string {
     let fractionalPart = amount - integerPart;
 
     const cents = Math.round(fractionalPart * 100);
-    const amountInWords = integerPart > 0 ? convertThousands(integerPart) + ' peso' + (integerPart === 1 ? '' : 's') : '';
+    let amountInWords = integerPart > 0 ? convertThousands(integerPart) : '';
+    // Special case handling for '1' to output 'un peso' instead of 'uno peso'
+    if (integerPart === 1) {
+        amountInWords = 'un peso';
+    } else if (integerPart > 1) {
+        amountInWords += ' pesos';
+    }
     const centsInWords = cents > 0 ? convertTens(cents) + ' centavo' + (cents === 1 ? '' : 's') : '';
     return [amountInWords, centsInWords].filter(Boolean).join(' con ');
 }
