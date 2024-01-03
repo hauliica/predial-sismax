@@ -122,12 +122,13 @@ export async function solicitaAction(prevState, formData: FormData) {
     } catch (error) {
         console.error(error);
         return {
+            status: "Error",
             message: `Error al guardar la solicitud ${error.toString()}`
         }
     }
 
     return {
-        status: "success",
+        status: "Success",
         // Return the created solicitud, flattened.
         message: Object.fromEntries(Object.entries(result.data).map(([key, value]) => {
             if (typeof value === "boolean") {
