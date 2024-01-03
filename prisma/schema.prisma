@@ -1051,6 +1051,7 @@ model banorteTransacciones {
   bancoEmisor    String? @db.VarChar(255)
   marcaTarjeta   String? @db.VarChar(50)
   tipoTarjeta    String? @db.VarChar(50)
+  cuentafolio    String? @db.VarChar(255)
 }
 
 model Solicitud2024 {

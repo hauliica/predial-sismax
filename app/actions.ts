@@ -1,7 +1,6 @@
 "use server"
 
 import db from "@/lib/db";
-import {type Padron} from "@prisma/client";
 import {redirect} from "next/navigation";
 import {z} from "zod";
 import {generateControlNumber, normalizeValues} from "@/lib/utils";
@@ -140,8 +139,8 @@ export async function solicitaAction(prevState, formData: FormData) {
 }
 
 // Guarda los valores retornados de Banorte en la Base de Datos, en la tabla PaymentTransactions.
-// Usar la Salt, Vi, y passphrase usadas durante el encriptado para regenerar la clave derivada pbkdf2 y desencriptar el payload.
-export async function saveBanorteResponse(payload: any) {
+// Usa la Salt, Vi, y passphrase usadas durante el encriptado para regenerar la clave derivada pbkdf2 y desencriptar el payload.
+export async function saveBanorteResponse(payload: any, cuenta: string, folio: string) {
     try {
         console.log("PAYLOAD RAW:", payload);
         const numCtrl = payload.numeroControl;
@@ -159,7 +158,9 @@ export async function saveBanorteResponse(payload: any) {
         const dataJson = JSON.parse(decryptedPayload);
         const banorteResponseWithDecryptedData = {
             ...payload,
-            ...dataJson
+            ...dataJson,
+            cuenta: cuenta,
+            folio: folio
         }
         // Compose the object to save combining the decrypted payload with the rest of the fields.
         console.log(banorteResponseWithDecryptedData);
@@ -176,16 +177,31 @@ export async function saveBanorteResponse(payload: any) {
     }
 }
 
-export async function getPredio(cuentaFolio: string): Promise<Padron | null> {
+export async function getPredio(cuentaFolio: string) {
     try {
-        const [cuenta, folio] = splitCuentaFolio(cuentaFolio);
+        const [cuenta, folio] = splitCuentaFolio(cuentaFolio)
 
-        return db.padron.findFirst({
+        console.log(cuentaFolio);
+
+        const paymentData = await db.banorteTransacciones.findFirst({
+            where: {
+                cuentafolio: cuentaFolio,
+            }
+        });
+
+        console.log("PAYMENTDATA: ", paymentData);
+
+        const predio = await db.padron.findFirst({
             where: {
                 pcuenta: cuenta,
                 pfolio: folio,
             },
         });
+
+        return {
+            predio,
+            paymentData
+        }
     } catch (error) {
         console.error("Error in getPredio:", error)
         return null;
@@ -215,9 +231,8 @@ export async function encryptPayload(cuenta, folio) {
     try {
         const cuentaFolio = `${cuenta}${folio}`;
         const dataFromDB = await getPredio(cuentaFolio);
-        console.log(dataFromDB);
 
-        const banortePayload = createDataObject(dataFromDB);
+        const banortePayload = createDataObject(dataFromDB.predio);
 
         const jsonData = JSON.stringify(normalizeValues(banortePayload));
         const dataEncrypted = encryptJson(jsonData);

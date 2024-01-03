@@ -1,5 +1,4 @@
 import {getPredio} from "@/app/actions";
-import {Padron} from "@prisma/client";
 import {PaymentCard} from "@/components/PaymentCard";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {IdCardIcon} from "@radix-ui/react-icons";
@@ -20,6 +19,7 @@ import {notFound} from "next/navigation";
 import {Button} from "@/components/ui/button";
 import {headers} from "next/headers";
 import {Suspense} from "react";
+import {PagoCompletadoCard} from "@/components/PagoCompletadoCard";
 
 // function IP() {
 //     const FALLBACK_IP_ADDRESS = "0.0.0.0";
@@ -35,10 +35,11 @@ import {Suspense} from "react";
 // }
 
 export default async function Page({params}: { params: { cuentafolio: string } }) {
-    const predio: Padron | null = await getPredio(params.cuentafolio)
+    const {predio, paymentData} = await getPredio(params.cuentafolio);
     const cuentafolio = params.cuentafolio;
     const header = headers();
     const ip = (header.get("x-forwarded-for") ?? "127.0.0.1").split(",")[0];
+    console.log(predio);
 
     console.log(ip);
 
@@ -246,7 +247,12 @@ export default async function Page({params}: { params: { cuentafolio: string } }
                             </Card>
 
                             {/* Card 3: Estado de Cuenta */}
-                            <PaymentCard data={predio}/>
+                            {/* IF paymentData is not null show PagoCompletadoCard */}
+                            {paymentData ? (
+                                <PagoCompletadoCard data={paymentData}/>
+                            ) : (
+                                <PaymentCard data={predio}/>
+                            )}
                         </div>
                     </div>
                 </section>

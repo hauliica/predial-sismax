@@ -9,11 +9,14 @@ import Script from "next/script";
 import {encryptPayload, saveBanorteResponse} from "@/app/actions";
 import {useState} from "react";
 import {ReloadIcon} from "@radix-ui/react-icons";
+import {redirect} from "next/navigation";
+import {revalidatePath} from "next/cache";
 
 export function PaymentCard(props) {
     const [isBanorteReady, setIsBanorteReady] = useState(false);
     const [isModalLoading, setIsModalLoading] = useState(false);
     const {data} = props
+    console.log(data);
 
     async function startPaymentProcess() {
         setIsModalLoading(true);
@@ -26,6 +29,7 @@ export function PaymentCard(props) {
         const cipheredData = await encryptPayload(data.pcuenta, data.pfolio);
         console.log(cipheredData);
 
+
         try {
             Payment.setEnv("pro");
 
@@ -36,11 +40,14 @@ export function PaymentCard(props) {
                 },
                 OnError: function (response) {
                     console.log(response);
-                    saveBanorteResponse(response);
+                    saveBanorteResponse(response, data.pcuenta, data.pfolio);
                 },
                 onSuccess: function (response) {
                     console.log(response);
-                    saveBanorteResponse(response);
+                    saveBanorteResponse(response, data.pcuenta, data.pfolio);
+                    // Redirect to the same page to re-render the segment
+                    revalidatePath(window.location.pathname);
+                    redirect(window.location.pathname);
                 },
                 onCancel: function (response) {
                     console.log(response);
