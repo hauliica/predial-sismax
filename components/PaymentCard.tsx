@@ -99,7 +99,7 @@ export function PaymentCard(props) {
                                 <p className="text-sm text-muted-foreground">
                                     Fecha Limite de Pago
                                 </p>
-                                <p className="text-sm font-medium leading-none">01/01/2021</p>
+                                <p className="text-sm font-medium leading-none">01/31/2024</p>
                             </div>
                         </div>
                         {/*Concepto de Pago*/}
@@ -108,7 +108,7 @@ export function PaymentCard(props) {
                             <div className="space-y-1">
                                 <p className="text-sm text-muted-foreground">Concepto de Pago</p>
                                 <p className="text-sm font-medium leading-none">
-                                    {data.concepto1}
+                                    {data.concepto2}
                                 </p>
                             </div>
                         </div>
