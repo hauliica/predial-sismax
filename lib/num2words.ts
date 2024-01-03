@@ -1,6 +1,6 @@
 const units = ['cero', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'];
 const uniqueTens = ['once', 'doce', 'trece', 'catorce', 'quince', 'dieciséis', 'diecisiete', 'dieciocho', 'diecinueve'];
-const tens = ['', '', 'veinte', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa'];
+const tens = ['', 'diez', 'veinte', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa'];
 const hundreds = ['', 'ciento', 'doscientos', 'trescientos', 'cuatrocientos', 'quinientos', 'seiscientos', 'setecientos', 'ochocientos', 'novecientos'];
 
 function convertHundreds(num: number): string {
@@ -16,6 +16,8 @@ function convertHundreds(num: number): string {
 function convertTens(num: number): string {
     if (num < 10) {
         return units[num];
+    } else if (num === 10) {
+        return 'diez';
     } else if (num >= 11 && num <= 19) {
         return uniqueTens[num - 11];
     }
@@ -45,7 +47,8 @@ export default function num2words(amount: number | string): string {
     let integerPart = Math.floor(amount);
     let fractionalPart = amount - integerPart;
 
-    const cents = Math.round(fractionalPart * 100);
+    // Improve the rounding of cents to avoid floating-point errors
+    const cents = Math.round(Number((fractionalPart * 100).toFixed(2)));
     let amountInWords = integerPart > 0 ? convertThousands(integerPart) : '';
     // Special case handling for '1' to output 'un peso' instead of 'uno peso'
     if (integerPart === 1) {
