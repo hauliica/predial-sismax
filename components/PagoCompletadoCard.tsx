@@ -1,6 +1,5 @@
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
-import {CheckCircle2, DownloadIcon} from "lucide-react";
-import {Button} from "@/components/ui/button";
+import {CheckCircle2} from "lucide-react";
 import React from "react";
 
 export function PagoCompletadoCard(props) {
@@ -27,27 +26,27 @@ export function PagoCompletadoCard(props) {
                 </CardDescription>
             </CardHeader>
             <CardContent className="p-4">
-                <div className="flex justify-between mb-2">
-                    <span className="font-medium text-gray-600 dark:text-gray-200">Fecha:</span>
-                    <span className="text-gray-600 dark:text-gray-200">{paymentDate}</span>
+                <div className="flex justify-start mb-2">
+                    <span className="font-medium mr-4 text-gray-600 dark:text-gray-200">Fecha:</span>
+                    <span className="text-gray-600 font-bold dark:text-gray-200">{paymentDate}</span>
                 </div>
-                <div className="flex justify-between mb-2">
-                    <span className="font-medium text-gray-600 dark:text-gray-200">Referencia:</span>
-                    <span className="text-gray-600 dark:text-gray-200">{data.referencia.toString()}</span>
+                <div className="flex justify-start mb-2">
+                    <span className="font-medium mr-4 text-gray-600 dark:text-gray-200">Referencia:</span>
+                    <span className="text-gray-600 font-bold dark:text-gray-200">{data.referencia.toString()}</span>
                 </div>
-                <div className="flex items-center justify-between mb-2">
-                    <span className="font-medium text-gray-600 dark:text-gray-200">Numero de Control:</span>
-                    <span className="text-gray-600 dark:text-gray-200">{data.numeroControl}</span>
+                <div className="flex items-center justify-start mb-2">
+                    <span className="font-medium text-gray-600 mr-4 dark:text-gray-200">Numero de Control:</span>
+                    <span className="text-gray-600 font-bold dark:text-gray-200">{data.numeroControl}</span>
                 </div>
             </CardContent>
             <CardFooter className="flex justify-between p-5">
-                <Button variant="outline" className="flex items-center">
-                    <DownloadIcon className="w-4 h-4 mr-2"/>
-                    Descargar Recibo
-                </Button>
-                <Button variant="outline">
-                    Ver Detalles de la Transacción
-                </Button>
+                {/*<Button variant="outline" className="flex items-center">*/}
+                {/*    <DownloadIcon className="w-4 h-4 mr-2"/>*/}
+                {/*    Descargar Recibo*/}
+                {/*</Button>*/}
+                {/*<Button variant="outline">*/}
+                {/*    Ver Detalles de la Transacción*/}
+                {/*</Button>*/}
             </CardFooter>
         </Card>
     );

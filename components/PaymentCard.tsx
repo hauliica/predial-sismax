@@ -9,14 +9,14 @@ import Script from "next/script";
 import {encryptPayload, saveBanorteResponse} from "@/app/actions";
 import {useState} from "react";
 import {ReloadIcon} from "@radix-ui/react-icons";
-import {redirect} from "next/navigation";
-import {revalidatePath} from "next/cache";
+import {useRouter} from "next/navigation";
 
 export function PaymentCard(props) {
     const [isBanorteReady, setIsBanorteReady] = useState(false);
     const [isModalLoading, setIsModalLoading] = useState(false);
+    const router = useRouter();
     const {data} = props
-    console.log(data);
+    console.log(data)
 
     async function startPaymentProcess() {
         setIsModalLoading(true);
@@ -36,30 +36,33 @@ export function PaymentCard(props) {
             Payment.startPayment({
                 Params: cipheredData,
                 onClosed: function (response) {
-                    console.log(response);
+                    console.log("ONCLOSED: ", response);
+                    router.refresh();
                 },
                 OnError: function (response) {
-                    console.log(response);
-                    saveBanorteResponse(response, data.pcuenta, data.pfolio);
+                    console.log("ONERROR: ", response);
+                    saveBanorteResponse(response, `${data.pcuenta}${data.pfolio}`);
+                    router.refresh();
                 },
                 onSuccess: function (response) {
-                    console.log(response);
-                    saveBanorteResponse(response, data.pcuenta, data.pfolio);
+                    console.log("ONSUCCESS: ", response);
+                    saveBanorteResponse(response, `${data.pcuenta}${data.pfolio}`);
+                    router.refresh();
                     // Redirect to the same page to re-render the segment
-                    revalidatePath(window.location.pathname);
-                    redirect(window.location.pathname);
                 },
                 onCancel: function (response) {
-                    console.log(response);
+                    console.log("ONCANCEL: ", response);
+                    router.refresh();
                 },
                 loaded: function () {
                     setIsModalLoading(false);
                 }
             });
         } catch (error) {
-            console.log(error);
+            console.log("ERROR: ", error);
             setIsModalLoading(false);
         }
+
     }
 
     return (
@@ -149,7 +152,7 @@ export function PaymentCard(props) {
                         Pagar con Tarjeta de Credito/Debito
                     </Button>
                     {/*  Imprimir Recibo de Pago*/}
-                    <Button variant="outline" className="col-span-1">
+                    <Button variant="outline" className="col-span-1" onClick={() => router.refresh()}>
                         Imprimir Recibo de Pago
                     </Button>
                 </CardFooter>

@@ -40,7 +40,7 @@ export default async function Page({params}: { params: { cuentafolio: string } }
     const header = headers();
     const ip = (header.get("x-forwarded-for") ?? "127.0.0.1").split(",")[0];
     console.log(predio);
-    console.log(paymentData);
+    console.log("PREDIAL>PAGE: ", paymentData);
 
     console.log(ip);
 
