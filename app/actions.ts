@@ -160,7 +160,7 @@ export async function saveBanorteResponse(payload: any, cuentafolio: string, imp
             ...payload,
             ...dataJson,
             cuentafolio: cuentafolio,
-            importe: importePagado
+            importe: importePagado.toString()
         }
         // Compose the object to save combining the decrypted payload with the rest of the fields.
         console.log(banorteResponseWithDecryptedData);
