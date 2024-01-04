@@ -25,13 +25,13 @@ function LoadingOverlay() {
     );
 }
 
-function FormField({name, label, placeholder, type, formState}) {
+function FormField({name, label, placeholder, type, formState, isRequired = true}) {
     const errorMessage = formState.message?.[name];
 
     return (
         <div>
             <Label htmlFor={name}>
-                {label}
+                {label} {isRequired && <span className="text-destructive">*</span>}
             </Label>
             <Input
                 type={type}
@@ -39,7 +39,7 @@ function FormField({name, label, placeholder, type, formState}) {
                 className={`mt-1 block w-full focus-visible:border-slate-300  ${errorMessage ? "border-destructive " : ""}`}
                 id={name}
                 placeholder={placeholder}
-                required
+                required={isRequired}
                 variant={errorMessage ? "error" : "default"}
             />
             {errorMessage && (
@@ -161,7 +161,7 @@ export default function SolicitaPage() {
                                     <FormField label="Numbero Exterior" name="numeroExterior" type="text"
                                                placeholder="1266" formState={state}/>
                                     <FormField label="Numero Interior" name="numeroInterior" type="text"
-                                               placeholder="1466" formState={state}/>
+                                               placeholder="1466" isRequired={false} formState={state}/>
                                 </div>
 
                                 <h2 className="text-lg font-semibold my-4">Contacto</h2>
