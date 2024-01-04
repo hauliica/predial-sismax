@@ -152,12 +152,16 @@ export function PaymentCard(props) {
                         Pagar con Tarjeta de Credito/Debito
                     </Button>
                     {/*  Imprimir Recibo de Pago*/}
-                    <Button variant="outline" className="col-span-1" onClick={() => router.refresh()}>
-                        Imprimir Recibo de Pago
+                    <Button variant="outline" className="col-span-1">
+                        <a target="_blank" rel="noopener noreferrer"
+                           href={`https://predial.sistemasmac.com/apis/notifica/imprimir/aviso1.php?cta=${data.pcuenta}&fol=${data.pfolio}`}>
+                            Imprimir Estado de Cuenta
+                        </a>
                     </Button>
                 </CardFooter>
 
             </Card>
         </>
-    );
+    )
+        ;
 }
