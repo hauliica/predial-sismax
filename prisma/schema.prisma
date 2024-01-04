@@ -1071,3 +1071,31 @@ model Solicitud2024 {
   notifications   Boolean
   created_at      DateTime? @default(now()) @db.Timestamp(0)
 }
+
+model Avisos {
+  idaviso     Int     @id @default(autoincrement())
+  idavisoind  Int
+  nomaviso    String? @db.VarChar(100)
+  parrafo1    String? @db.VarChar(400)
+  parrafo2    String? @db.VarChar(400)
+  parrafo3    String? @db.VarChar(400)
+  parrafo4    String? @db.VarChar(400)
+  parrafo5    String? @db.VarChar(400)
+  parrafo6    String? @db.VarChar(400)
+  parrafo7    String? @db.VarChar(400)
+  parrafo8    String? @db.VarChar(400)
+  parrafo9    String? @db.VarChar(400)
+  parrafo10   String? @db.VarChar(400)
+  parrafo11   String? @db.VarChar(400)
+  parrafo12   String? @db.VarChar(400)
+  parrafo13   String? @db.VarChar(400)
+  parrafo14   String? @db.VarChar(400)
+  parrafo15   String? @db.VarChar(400)
+  parrafo16   String? @db.VarChar(400)
+  parrafo17   String? @db.VarChar(400)
+  firma       String? @db.VarChar(100)
+  puesto      String? @db.VarChar(100)
+  idestatusav Int?
+  nota1       String? @db.VarChar(400)
+  nota2       String? @db.VarChar(400)
+}
