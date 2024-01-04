@@ -41,12 +41,12 @@ export function PaymentCard(props) {
                 },
                 OnError: function (response) {
                     console.log("ONERROR: ", response);
-                    saveBanorteResponse(response, `${data.pcuenta}${data.pfolio}`);
+                    // saveBanorteResponse(response, `${data.pcuenta}${data.pfolio}`);
                     router.refresh();
                 },
                 onSuccess: function (response) {
                     console.log("ONSUCCESS: ", response);
-                    saveBanorteResponse(response, `${data.pcuenta}${data.pfolio}`);
+                    saveBanorteResponse(response, `${data.pcuenta}${data.pfolio}`, data.imptotal2);
                     router.refresh();
                     // Redirect to the same page to re-render the segment
                 },
@@ -69,7 +69,10 @@ export function PaymentCard(props) {
         <>
             <FullViewportModal show={isModalLoading} message="Cargando..."/>
             <Card className="col-span-2 lg:col-span-4">
-                <Script src="https://multicobros.banorte.com/orquestador/resources/js/jquery-3.3.1.js"/>
+                <Script strategy="afterInteractive"
+                        src="https://multicobros.banorte.com/orquestador/resources/js/jquery-3.3.1.js" onLoad={() => {
+                    console.log("JQuery Loaded");
+                }}/>
                 <Script strategy="afterInteractive"
                         src="https://multicobros.banorte.com/orquestador/lightbox/checkoutV2.js"
                         onLoad={() => {
@@ -88,7 +91,11 @@ export function PaymentCard(props) {
                             Total Adeudado
                         </h6>
                         <p className="text-3xl font-bold text-gray-800">
-                            $ {data.imptotal2}
+                            {/* Convert imptotal2 to Number and apply format */}
+                            {new Intl.NumberFormat("es-MX", {
+                                style: "currency",
+                                currency: "MXN",
+                            }).format(Number(data.imptotal2))}
                         </p>
                         <p className="text-sm capitalize tracking-tighter text-gray-500">
                             ({num2words(data.imptotal2)})

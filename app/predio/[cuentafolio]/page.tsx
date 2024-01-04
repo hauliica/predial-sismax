@@ -36,11 +36,14 @@ import {PagoCompletadoCard} from "@/components/PagoCompletadoCard";
 
 export default async function Page({params}: { params: { cuentafolio: string } }) {
     const {predio, paymentData} = await getPredio(params.cuentafolio);
+    // If paymentData has data, check if 'resultadoPayw` equals to 'A' any other value is false
+    const isPaymentSuccessful = paymentData ? paymentData.resultadoPayw === "A" : false;
     const cuentafolio = params.cuentafolio;
     const header = headers();
     const ip = (header.get("x-forwarded-for") ?? "127.0.0.1").split(",")[0];
     console.log(predio);
     console.log("PREDIAL>PAGE: ", paymentData);
+    console.log(isPaymentSuccessful);
 
     console.log(ip);
 
@@ -249,7 +252,7 @@ export default async function Page({params}: { params: { cuentafolio: string } }
 
                             {/* Card 3: Estado de Cuenta */}
                             {/* IF paymentData is not null show PagoCompletadoCard */}
-                            {paymentData ? (
+                            {isPaymentSuccessful ? (
                                 <PagoCompletadoCard data={paymentData}/>
                             ) : (
                                 <PaymentCard data={predio}/>

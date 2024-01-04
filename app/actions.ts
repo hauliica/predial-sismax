@@ -140,7 +140,7 @@ export async function solicitaAction(prevState, formData: FormData) {
 
 // Guarda los valores retornados de Banorte en la Base de Datos, en la tabla PaymentTransactions.
 // Usa la Salt, Vi, y passphrase usadas durante el encriptado para regenerar la clave derivada pbkdf2 y desencriptar el payload.
-export async function saveBanorteResponse(payload: any, cuentafolio: string) {
+export async function saveBanorteResponse(payload: any, cuentafolio: string, importePagado) {
     try {
         console.log("PAYLOAD RAW:", payload);
         const numCtrl = payload.numeroControl;
@@ -159,7 +159,8 @@ export async function saveBanorteResponse(payload: any, cuentafolio: string) {
         const banorteResponseWithDecryptedData = {
             ...payload,
             ...dataJson,
-            cuentafolio: cuentafolio
+            cuentafolio: cuentafolio,
+            importe: importePagado
         }
         // Compose the object to save combining the decrypted payload with the rest of the fields.
         console.log(banorteResponseWithDecryptedData);
