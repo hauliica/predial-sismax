@@ -267,6 +267,7 @@ function createDataObject(dataFromDB) {
     const merchantConfig = getMerchantConfig();
     return {
         ...merchantConfig,
+        controlNumber: generateControlNumber(`${dataFromDB.pcuenta}${dataFromDB.pfolio}`, 25).toString(),
         amount: dataFromDB.imptotal2.toFixed(2),
         billToFirstName: dataFromDB.pnombre,
         billToLastName: dataFromDB.papp,
@@ -274,6 +275,7 @@ function createDataObject(dataFromDB) {
         billToStreetNumber: dataFromDB.dfnum,
         billToStreet2Col: dataFromDB.dpcolonia,
         billToCity: dataFromDB.dfcd,
+        customerRef1: `${dataFromDB.pcuenta}${dataFromDB.pfolio}`,
         ...createMerchantDefinedDataFields(3, 100)
     }
 }
@@ -284,7 +286,6 @@ function getMerchantConfig() {
         name: process.env.BAN_NAME,
         password: process.env.BAN_PASSWORD,
         mode: process.env.BAN_MODE,
-        controlNumber: generateControlNumber(25).toString(),
         terminalId: process.env.BAN_TERMINAL_ID,
         merchantName: process.env.BAN_MERCHANT_NAME,
         merchantCity: process.env.BAN_MERCHANT_CITY,

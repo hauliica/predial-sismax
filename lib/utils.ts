@@ -6,14 +6,18 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 
-export function generateControlNumber(length: number = 30): string {
+export function generateControlNumber(cuentaFolio: string, length: number = 30): string {
     if (length > 30 || length <= 0) {
         throw new Error('Longitud no soportada.');
     }
 
+    if (cuentaFolio.length !== 12) {
+        throw new Error('El cuentaFolio debe ser de 12 dígitos.');
+    }
+
     // Codificado Base62 (0-9, a-z, A-Z)
     const base62Charset = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let result = '';
+    let result = cuentaFolio; // Start with cuentaFolio as the first 12 characters
 
     while (result.length < length) {
         const bytes = randomBytes(length - result.length);
