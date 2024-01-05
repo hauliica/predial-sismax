@@ -164,7 +164,13 @@ export function PaymentCard(props) {
                            href={`https://predial.sistemasmac.com/apis/notifica/imprimir/aviso1.php?cta=${data.pcuenta}&fol=${data.pfolio}`}>
                             Imprimir Estado de Cuenta
                         </a>
-                    </Button>
+                    </Button><Button variant="outline" className="col-span-1">
+                    <a target="_blank" rel="noopener noreferrer"
+                       href={`https://predial.sistemasmac.com/apis/notifica/imprimir/detalles.php?cta=${data.pcuenta}&fol=${data.pfolio}`}>
+                        Informe Detallado
+                    </a>
+                </Button>
+
                 </CardFooter>
 
             </Card>

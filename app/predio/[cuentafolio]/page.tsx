@@ -37,7 +37,7 @@ import {PagoCompletadoCard} from "@/components/PagoCompletadoCard";
 export default async function Page({params}: { params: { cuentafolio: string } }) {
     const {predio, paymentData} = await getPredio(params.cuentafolio);
     // If paymentData has data, check if 'resultadoPayw` equals to 'A' any other value is false
-    const isPaymentSuccessful = paymentData ? paymentData.resultadoPayw === "A" : false;
+    const isPaymentSuccessful = (paymentData && paymentData.resultadoPayw === "A") || (predio.fechapag !== '000000');
     const cuentafolio = params.cuentafolio;
     const header = headers();
     const ip = (header.get("x-forwarded-for") ?? "127.0.0.1").split(",")[0];
