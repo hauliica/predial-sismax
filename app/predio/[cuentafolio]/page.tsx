@@ -1,4 +1,4 @@
-import {getPredio} from "@/app/actions";
+import {getPredio, getVigenciaDate} from "@/app/actions";
 import {PaymentCard} from "@/components/PaymentCard";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {IdCardIcon} from "@radix-ui/react-icons";
@@ -36,6 +36,8 @@ import {PagoCompletadoCard} from "@/components/PagoCompletadoCard";
 
 export default async function Page({params}: { params: { cuentafolio: string } }) {
     const {predio, paymentData} = await getPredio(params.cuentafolio);
+    const panelData = await getVigenciaDate();
+
     // If paymentData has data, check if 'resultadoPayw` equals to 'A' any other value is false
     const isPaymentSuccessful = (paymentData && paymentData.resultadoPayw === "A") || (predio.fechapag !== '000000');
     const cuentafolio = params.cuentafolio;
@@ -44,6 +46,7 @@ export default async function Page({params}: { params: { cuentafolio: string } }
     console.log(predio);
     console.log("PREDIAL>PAGE: ", paymentData);
     console.log(isPaymentSuccessful);
+    console.log(panelData)
 
     console.log(ip);
 
@@ -255,7 +258,7 @@ export default async function Page({params}: { params: { cuentafolio: string } }
                             {isPaymentSuccessful ? (
                                 <PagoCompletadoCard data={paymentData}/>
                             ) : (
-                                <PaymentCard data={predio}/>
+                                <PaymentCard data={predio} panel={panelData}/>
                             )}
                         </div>
                     </div>

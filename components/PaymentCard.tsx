@@ -15,7 +15,7 @@ export function PaymentCard(props) {
     const [isBanorteReady, setIsBanorteReady] = useState(false);
     const [isModalLoading, setIsModalLoading] = useState(false);
     const router = useRouter();
-    const {data} = props
+    const {data, panel} = props
     console.log(data)
 
     async function startPaymentProcess() {
@@ -65,20 +65,20 @@ export function PaymentCard(props) {
 
     }
 
+	const loadCheckoutScript = () => {
+		const script = document.createElement("script");
+		script.src = "https://multicobros.banorte.com/orquestador/lightbox/checkoutV2.js";
+		script.onload = () => {
+			console.log("BANORTELOADED");
+			setIsBanorteReady(true);
+		};
+		document.body.appendChild(script)
+	}
+
     return (
         <>
             <FullViewportModal show={isModalLoading} message="Cargando..."/>
             <Card className="col-span-2 lg:col-span-4">
-                <Script strategy="afterInteractive"
-                        src="https://multicobros.banorte.com/orquestador/resources/js/jquery-3.3.1.js" onLoad={() => {
-                    console.log("JQuery Loaded");
-                }}/>
-                <Script strategy="afterInteractive"
-                        src="https://multicobros.banorte.com/orquestador/lightbox/checkoutV2.js"
-                        onLoad={() => {
-                            console.log("Banorte CheckoutV2 Loaded");
-                            setIsBanorteReady(true);
-                        }}/>
                 <CardHeader className="p-5">
                     <CardTitle>Estado de Cuenta</CardTitle>
                     <CardDescription>
@@ -109,7 +109,7 @@ export function PaymentCard(props) {
                                 <p className="text-sm text-muted-foreground">
                                     Fecha Limite de Pago
                                 </p>
-                                <p className="text-sm font-medium leading-none">01/31/2024</p>
+                                <p className="text-sm font-medium leading-none">{panel.vigencia}</p>
                             </div>
                         </div>
                         {/*Concepto de Pago*/}
@@ -171,6 +171,11 @@ export function PaymentCard(props) {
                     </a>
                 </Button>
 
+                <Script strategy="lazyOnload"
+                        src="https://multicobros.banorte.com/orquestador/resources/js/jquery-3.3.1.js" onLoad={() => {
+                    console.log("JQuery Loaded");
+			loadCheckoutScript();
+                }}/>
                 </CardFooter>
 
             </Card>

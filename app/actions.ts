@@ -80,6 +80,12 @@ export async function validateCuentaFolio(prevState: ValidationState, formData: 
     return {status: "success", message: ""};
 }
 
+export async function getVigenciaDate() {
+    const panel = await db.panelcontrol.findFirst({});
+  
+    return panel;
+}
+
 export async function solicitaAction(prevState, formData: FormData) {
     let rawData = Object.fromEntries(formData.entries());
 
@@ -186,6 +192,7 @@ export async function getPredio(cuentaFolio: string) {
         const paymentData = await db.banorteTransacciones.findFirst({
             where: {
                 cuentafolio: cuentaFolio,
+                resultadoPayw: "A"
             }
         });
 
